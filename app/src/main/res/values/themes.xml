@@ -1,16 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.Probeez" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+    <!--Final, top-level theme-->
+    <style name="Theme.Probeez.DayNight" parent="Theme.Probeez"/>
+
+    <style name="Theme.Probeez" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!--Color-->
+        <item name="colorPrimary">@color/probeez_blue_700</item>
+        <item name="colorPrimaryVariant">@color/probeez_blue_800</item>
+        <item name="colorSecondary">@color/probeez_orange_500</item>
+        <item name="colorSecondaryVariant">@color/probeez_orange_400</item>
+
+        <item name="android:colorBackground">@color/probeez_blue_50</item>
+        <item name="colorSurface">@color/probeez_white_50</item>
+        <item name="colorPrimarySurfaceVariant">?attr/colorPrimaryVariant</item>
+        <item name="colorError">@color/probeez_red_400</item>
+
+        <item name="colorOnPrimary">@color/probeez_white_50</item>
+        <item name="colorOnSecondary">@color/probeez_black_900</item>
+        <item name="colorOnBackground">@color/probeez_black_900</item>
+        <item name="colorOnSurface">@color/probeez_black_900</item>
+        <item name="colorOnError">@color/probeez_black_900</item>
+
+        <item name="scrimBackground">@color/probeez_white_50_alpha_060</item>
+        <item name="android:statusBarColor">@color/probeez_blue_50_alpha_060</item>
+        <item name="android:navigationBarColor">@color/nav_bar</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Probeez.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Probeez.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Probeez.LargeComponent</item>
+
+        <!--Typography-->
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Probeez.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Probeez.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.Probeez.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Probeez.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Probeez.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Probeez.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Probeez.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.Probeez.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Probeez.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.Probeez.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Probeez.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.Probeez.Overline</item>
+
+        <item name="emphasisHighAlpha">0.87</item>
+        <item name="emphasisMediumAlpha">0.60</item>
+        <item name="emphasisDisabledAlpha">0.38</item>
+
+        <item name="motionInterpolatorPersistent">@android:interpolator/fast_out_slow_in</item>
+        <item name="motionInterpolatorIncoming">@android:interpolator/decelerate_cubic</item>
+        <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
+
+        <!--Styles-->
+        <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface</item>
+        <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+        <item name="navigationViewStyle">@style/Widget.Probeez.NavigationView</item>
+        <item name="chipStyle">@style/Widget.Probeez.Chip.Entry</item>
+
+        <!--System/Platform attributes-->
+        <item name="android:windowBackground">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 </resources>

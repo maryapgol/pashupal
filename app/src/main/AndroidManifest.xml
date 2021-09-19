@@ -3,20 +3,26 @@
     package="com.aztechz.probeez">
 
     <application
-        android:allowBackup="true"
+        android:name=".MyApplication"
+        android:autoLink="phone"
+        android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Probeez">
+        android:theme="@style/Theme.Probeez.DayNight"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".MainActivity"
+            android:exported="true"/>
         <activity
-            android:name=".view.login_signup.SignupActivity"
+            android:name=".ui.login_signup.SignupActivity"
             android:exported="true" />
         <activity
-            android:name=".view.login_signup.LoginActivity"
+            android:name=".ui.login_signup.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

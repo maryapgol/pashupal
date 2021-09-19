@@ -9,7 +9,7 @@ plugins {
 
 def versionMajor = 1
 def versionMinor = 0
-def versionPatch = 3
+def versionPatch = 0
 
 android {
     compileSdk 31
@@ -29,8 +29,8 @@ android {
             multiDexEnabled true
         }
     }
-    buildFeatures {
-        viewBinding true
+    dataBinding {
+        enabled true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.android.gms:play-services-base:17.6.0'
     def nav_version = '2.3.5'
     def retrofit2_version = '2.9.0'
 
@@ -89,6 +90,12 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
     implementation 'com.google.code.gson:gson:2.8.7'
+
+    implementation 'com.facebook.android:facebook-android-sdk:4.17.0'
+    implementation 'com.shobhitpuri.custombuttons:google-signin:1.1.0'
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:4.11.0"
 
 
 }
