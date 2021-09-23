@@ -20,15 +20,15 @@ import androidx.recyclerview.widget.DiffUtil
 import com.aztechz.probeez.ui.home.Mailbox
 
 /**
- * A simple data class to represent an Email.
+ * A simple data class to represent an Task.
  */
-data class Email(
+data class Task(
     val id: Long,
     val sender: Account,
-    val recipients: List<Account> = emptyList(),
+    val vendors: List<Account> = emptyList(),
     val subject: String = "",
     val body: String = "",
-    val attachments: List<EmailAttachment> = emptyList(),
+    val attachments: List<TaskAttachment> = emptyList(),
     var isImportant: Boolean = false,
     var isStarred: Boolean = false,
     var mailbox: Mailbox = Mailbox.HOME
@@ -36,15 +36,15 @@ data class Email(
     val senderPreview: String = "${sender.fullName} - 4 hrs ago"
     val hasBody: Boolean = body.isNotBlank()
     val hasAttachments: Boolean = attachments.isNotEmpty()
-    val recipientsPreview: String = recipients
+    val vendorsPreview: String = vendors
         .map { it.firstName }
         .fold("") { name, acc -> "$acc, $name" }
-    val nonUserAccountRecipients = recipients
+    val nonUserAccountVendors = vendors
         .filterNot { AccountStore.isUserAccount(it.uid) }
 }
 
-object EmailDiffCallback : DiffUtil.ItemCallback<Email>() {
-    override fun areItemsTheSame(oldItem: Email, newItem: Email) = oldItem.id == newItem.id
-    override fun areContentsTheSame(oldItem: Email, newItem: Email) = oldItem == newItem
+object TaskDiffCallback : DiffUtil.ItemCallback<Task>() {
+    override fun areItemsTheSame(oldItem: Task, newItem: Task) = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: Task, newItem: Task) = oldItem == newItem
 }
 

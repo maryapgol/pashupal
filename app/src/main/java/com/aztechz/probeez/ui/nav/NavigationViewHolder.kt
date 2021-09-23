@@ -19,7 +19,7 @@ package com.aztechz.probeez.ui.nav
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.aztechz.probeez.databinding.NavDividerItemLayoutBinding
-import com.aztechz.probeez.databinding.NavEmailFolderItemLayoutBinding
+import com.aztechz.probeez.databinding.NavTaskFolderItemLayoutBinding
 import com.aztechz.probeez.databinding.NavMenuItemLayoutBinding
 
 sealed class NavigationViewHolder<T : NavigationModelItem>(
@@ -51,14 +51,14 @@ sealed class NavigationViewHolder<T : NavigationModelItem>(
         }
     }
 
-    class EmailFolderViewHolder(
-        private val binding: NavEmailFolderItemLayoutBinding,
+    class TaskFolderViewHolder(
+        private val binding: NavTaskFolderItemLayoutBinding,
         private val listener: NavigationAdapter.NavigationAdapterListener
-    ) : NavigationViewHolder<NavigationModelItem.NavEmailFolder>(binding.root) {
+    ) : NavigationViewHolder<NavigationModelItem.NavTaskFolder>(binding.root) {
 
-        override fun bind(navItem: NavigationModelItem.NavEmailFolder) {
+        override fun bind(navItem: NavigationModelItem.NavTaskFolder) {
             binding.run {
-                navEmailFolder = navItem
+                navTaskFolder = navItem
                 navListener = listener
                 executePendingBindings()
             }

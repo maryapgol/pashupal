@@ -19,8 +19,8 @@ package com.aztechz.probeez.ui.nav
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
-import com.aztechz.probeez.data.EmailFolder
-import com.aztechz.probeez.data.EmailFolderDiff
+import com.aztechz.probeez.data.TaskFolder
+import com.aztechz.probeez.data.TaskFolderDiff
 import com.aztechz.probeez.ui.home.Mailbox
 
 /**
@@ -46,9 +46,9 @@ sealed class NavigationModelItem {
     data class NavDivider(val title: String) : NavigationModelItem()
 
     /**
-     * A class which is used to show an [EmailFolder] in the [NavigationAdapter].
+     * A class which is used to show an [TaskFolder] in the [NavigationAdapter].
      */
-    data class NavEmailFolder(val emailFolder: EmailFolder) : NavigationModelItem()
+    data class NavTaskFolder(val emailFolder: TaskFolder) : NavigationModelItem()
 
     object NavModelItemDiff : DiffUtil.ItemCallback<NavigationModelItem>() {
         override fun areItemsTheSame(
@@ -58,8 +58,8 @@ sealed class NavigationModelItem {
             return when {
                 oldItem is NavMenuItem && newItem is NavMenuItem ->
                     oldItem.id == newItem.id
-                oldItem is NavEmailFolder && newItem is NavEmailFolder ->
-                    EmailFolderDiff.areItemsTheSame(oldItem.emailFolder, newItem.emailFolder)
+                oldItem is NavTaskFolder && newItem is NavTaskFolder ->
+                    TaskFolderDiff.areItemsTheSame(oldItem.emailFolder, newItem.emailFolder)
                 else -> oldItem == newItem
             }
         }
@@ -73,8 +73,8 @@ sealed class NavigationModelItem {
                      oldItem.icon == newItem.icon &&
                      oldItem.titleRes == newItem.titleRes &&
                      oldItem.checked == newItem.checked
-                oldItem is NavEmailFolder && newItem is NavEmailFolder ->
-                    EmailFolderDiff.areContentsTheSame(oldItem.emailFolder, newItem.emailFolder)
+                oldItem is NavTaskFolder && newItem is NavTaskFolder ->
+                    TaskFolderDiff.areContentsTheSame(oldItem.emailFolder, newItem.emailFolder)
                 else -> false
             }
         }

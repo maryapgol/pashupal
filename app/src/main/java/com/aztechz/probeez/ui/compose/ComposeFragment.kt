@@ -16,22 +16,28 @@
 
 package com.aztechz.probeez.ui.compose
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aztechz.probeez.R
-import com.aztechz.probeez.data.Account
 import com.aztechz.probeez.data.AccountStore
-import com.aztechz.probeez.data.Email
-import com.aztechz.probeez.data.EmailStore
-import com.aztechz.probeez.databinding.ComposeRecipientChipBinding
+import com.aztechz.probeez.data.Task
+import com.aztechz.probeez.data.TaskStore
 import com.aztechz.probeez.databinding.FragmentComposeBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import java.util.*
 import kotlin.LazyThreadSafetyMode.NONE
 
 /**
@@ -44,24 +50,27 @@ class ComposeFragment : Fragment() {
     private val args: ComposeFragmentArgs by navArgs()
 
     // The new email being composed.
-    private val composeEmail: Email by lazy(NONE) {
+    private val composeTask: Task by lazy(NONE) {
         // Get the id of the email being replied to, if any, and either create an new empty email
         // or a new reply email.
-        val id = args.replyToEmailId
-        if (id == -1L) EmailStore.create() else EmailStore.createReplyTo(id)
+        val id = args.replyToTaskId
+        if (id == -1L) TaskStore.create() else TaskStore.createReplyTo(id)
     }
 
-    // Handle closing an expanded recipient card when on back is pressed.
-    private val closeRecipientCardOnBackPressed = object : OnBackPressedCallback(false) {
+    private val taskTypes = arrayOf("Personal","Professional")
+    private var tasktype = ""
+
+   /* // Handle closing an expanded vendor card when on back is pressed.
+    private val closeVendorCardOnBackPressed = object : OnBackPressedCallback(false) {
         var expandedChip: View? = null
         override fun handleOnBackPressed() {
             expandedChip?.let { collapseChip(it) }
         }
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(this, closeRecipientCardOnBackPressed)
+        //requireActivity().onBackPressedDispatcher.addCallback(this, closeVendorCardOnBackPressed)
     }
 
     override fun onCreateView(
@@ -76,78 +85,136 @@ class ComposeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.run {
             closeIcon.setOnClickListener { findNavController().navigateUp() }
-            email = composeEmail
+            email = composeTask
 
-            composeEmail.nonUserAccountRecipients.forEach { addRecipientChip(it) }
+            //composeTask.nonUserAccountVendors.forEach { addVendorChip(it) }
 
-            senderSpinner.adapter = ArrayAdapter(
-                senderSpinner.context,
+            typeSpinner.adapter = ArrayAdapter(
+                vendorSpinner.context,
                 R.layout.spinner_item_layout,
-                AccountStore.getAllUserAccounts().map { it.email }
+                taskTypes
+            )
+            typeSpinner.setSelection(0)
+
+            typeSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        adapterView: AdapterView<*>?,
+                        view: View,
+                        i: Int,
+                        l: Long
+                    ) {
+                        //Logic here
+                        tasktype = typeSpinner.getItemAtPosition(i).toString()
+                        if(i == 1){
+                            vendorSpinner.visibility = View.VISIBLE
+                            vendorAddIcon.visibility = View.VISIBLE
+                            vendorDivider.visibility = View.VISIBLE
+                            taskAmount.visibility = View.VISIBLE
+                            amountDivider.visibility = View.VISIBLE
+                        }else{
+                            vendorSpinner.visibility = View.GONE
+                            vendorAddIcon.visibility = View.GONE
+                            vendorDivider.visibility = View.GONE
+                            taskAmount.visibility = View.GONE
+                            amountDivider.visibility = View.GONE
+                        }
+                    }
+
+                    override fun onNothingSelected(adapterView: AdapterView<*>?) {
+                        return
+                    }
+                }
+
+            val datePicker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select task date")
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .build()
+
+            taskDateSelector.setOnClickListener {
+                datePicker.show(parentFragmentManager, "MATERIAL_DATE_PICKER")
+            }
+
+            datePicker.addOnPositiveButtonClickListener {
+                taskDateSelector.text = datePicker.headerText
+            }
+
+
+            taskTimeSelector.setOnClickListener {
+                // instance of MDC time picker
+                val materialTimePicker: MaterialTimePicker = MaterialTimePicker.Builder()
+                    // set the title for the alert dialog
+                    .setTitleText("SELECT YOUR TIMING")
+                    // set the default hour for the
+                    // dialog when the dialog opens
+                    .setHour(12)
+                    // set the default minute for the
+                    // dialog when the dialog opens
+                    .setMinute(10)
+                    // set the time format
+                    // according to the region
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .build()
+
+                materialTimePicker.show(parentFragmentManager, "MATERIAL_TIME_PICKER")
+
+                // on clicking the positive button of the time picker
+                // dialog update the TextView accordingly
+                materialTimePicker.addOnPositiveButtonClickListener {
+
+                    val pickedHour: Int = materialTimePicker.hour
+                    val pickedMinute: Int = materialTimePicker.minute
+
+                    // check for single digit hour hour and minute
+                    // and update TextView accordingly
+                    val formattedTime: String = when {
+                        pickedHour > 12 -> {
+                            if (pickedMinute < 10) {
+                                "${materialTimePicker.hour - 12}:0${materialTimePicker.minute} pm"
+                            } else {
+                                "${materialTimePicker.hour - 12}:${materialTimePicker.minute} pm"
+                            }
+                        }
+                        pickedHour == 12 -> {
+                            if (pickedMinute < 10) {
+                                "${materialTimePicker.hour}:0${materialTimePicker.minute} pm"
+                            } else {
+                                "${materialTimePicker.hour}:${materialTimePicker.minute} pm"
+                            }
+                        }
+                        pickedHour == 0 -> {
+                            if (pickedMinute < 10) {
+                                "${materialTimePicker.hour + 12}:0${materialTimePicker.minute} am"
+                            } else {
+                                "${materialTimePicker.hour + 12}:${materialTimePicker.minute} am"
+                            }
+                        }
+                        else -> {
+                            if (pickedMinute < 10) {
+                                "${materialTimePicker.hour}:0${materialTimePicker.minute} am"
+                            } else {
+                                "${materialTimePicker.hour}:${materialTimePicker.minute} am"
+                            }
+                        }
+                    }
+
+                    // then update the preview TextView
+                    taskTimeSelector.text = formattedTime
+                }
+            }
+
+
+
+            vendorSpinner.adapter = ArrayAdapter(
+                vendorSpinner.context,
+                R.layout.spinner_item_layout,
+                AccountStore.getAllUserAccounts().map { "${it.firstName} ${it.lastName}" }
             )
 
             // TODO: Set up MaterialContainerTransform enterTransition and Slide returnTransition.
         }
     }
 
-    /**
-     * Add a chip for the given [Account] to the recipients chip group.
-     *
-     * This method also sets up the ability for expanding/collapsing the chip into a recipient
-     * address selection dialog.
-     */
-    private fun addRecipientChip(acnt: Account) {
-        binding.recipientChipGroup.run {
-            val chipBinding = ComposeRecipientChipBinding.inflate(
-                LayoutInflater.from(context),
-                this,
-                false
-            ).apply {
-                account = acnt
-                root.setOnClickListener {
-                    // Bind the views in the expanded card view to this account's details when
-                    // clicked and expand.
-                    binding.focusedRecipient = acnt
-                    expandChip(it)
-                }
-            }
-            addView(chipBinding.root)
-        }
-    }
 
-    /**
-     * Expand the recipient [chip] into a popup with a list of contact addresses to choose from.
-     */
-    private fun expandChip(chip: View) {
-        // Configure the analogous collapse transform back to the recipient chip. This should
-        // happen when the card is clicked, any region outside of the card (the card's transparent
-        // scrim) is clicked, or when the back button is pressed.
-        binding.run {
-            recipientCardView.setOnClickListener { collapseChip(chip) }
-            recipientCardScrim.visibility = View.VISIBLE
-            recipientCardScrim.setOnClickListener { collapseChip(chip) }
-        }
-        closeRecipientCardOnBackPressed.expandedChip = chip
-        closeRecipientCardOnBackPressed.isEnabled = true
-
-        // TODO: Set up MaterialContainerTransform beginDelayedTransition.
-        binding.recipientCardView.visibility = View.VISIBLE
-        // Using INVISIBLE instead of GONE ensures the chip's parent layout won't shift during
-        // the transition due to chips being effectively removed.
-        chip.visibility = View.INVISIBLE
-    }
-
-    /**
-     * Collapse the recipient card back into its [chip] form.
-     */
-    private fun collapseChip(chip: View) {
-        // Remove the scrim view and on back pressed callbacks
-        binding.recipientCardScrim.visibility = View.GONE
-        closeRecipientCardOnBackPressed.expandedChip = null
-        closeRecipientCardOnBackPressed.isEnabled = false
-
-        // TODO: Set up MaterialContainerTransform beginDelayedTransition.
-        chip.visibility = View.VISIBLE
-        binding.recipientCardView.visibility = View.INVISIBLE
-    }
 }

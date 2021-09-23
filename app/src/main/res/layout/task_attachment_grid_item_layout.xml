@@ -5,7 +5,7 @@
     <data>
         <variable
             name="emailAttachment"
-            type="com.aztechz.probeez.data.EmailAttachment" />
+            type="com.aztechz.probeez.data.TaskAttachment" />
     </data>
 
     <ImageView

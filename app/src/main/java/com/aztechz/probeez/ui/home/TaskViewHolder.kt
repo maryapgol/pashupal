@@ -19,21 +19,21 @@ package com.aztechz.probeez.ui.home
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.aztechz.probeez.R
-import com.aztechz.probeez.data.Email
-import com.aztechz.probeez.databinding.EmailItemLayoutBinding
-import com.aztechz.probeez.ui.common.EmailAttachmentAdapter
+import com.aztechz.probeez.data.Task
+import com.aztechz.probeez.databinding.TaskItemLayoutBinding
+import com.aztechz.probeez.ui.common.TaskAttachmentAdapter
 import com.aztechz.probeez.util.setTextAppearanceCompat
 import com.aztechz.probeez.util.themeStyle
 import kotlin.math.abs
 
-class EmailViewHolder(
-    private val binding: EmailItemLayoutBinding,
-    listener: EmailAdapter.EmailAdapterListener
+class TaskViewHolder(
+    private val binding: TaskItemLayoutBinding,
+    listener: TaskAdapter.TaskAdapterListener
 ): RecyclerView.ViewHolder(binding.root), ReboundingSwipeActionCallback.ReboundableViewHolder {
 
-    private val attachmentAdapter = object : EmailAttachmentAdapter() {
+    private val attachmentAdapter = object : TaskAttachmentAdapter() {
         override fun getLayoutIdForPosition(position: Int): Int
-            = R.layout.email_attachment_preview_item_layout
+            = R.layout.task_attachment_preview_item_layout
     }
 
     private val starredCornerSize =
@@ -45,17 +45,17 @@ class EmailViewHolder(
         binding.run {
             this.listener = listener
             attachmentRecyclerView.adapter = attachmentAdapter
-            root.background = EmailSwipeActionDrawable(root.context)
+            root.background = TaskSwipeActionDrawable(root.context)
         }
     }
 
-    fun bind(email: Email) {
-        binding.email = email
-        binding.root.isActivated = email.isStarred
+    fun bind(task: Task) {
+        binding.email = task
+        binding.root.isActivated = task.isStarred
 
         // Set the subject's TextAppearance
         val textAppearance = binding.subjectTextView.context.themeStyle(
-            if (email.isImportant) {
+            if (task.isImportant) {
                 R.attr.textAppearanceHeadline4
             } else {
                 R.attr.textAppearanceHeadline5
@@ -66,12 +66,12 @@ class EmailViewHolder(
             textAppearance
         )
 
-        attachmentAdapter.submitList(email.attachments)
+        attachmentAdapter.submitList(task.attachments)
 
         // Setting interpolation here controls whether or not we draw the top left corner as
         // rounded or squared. Since all other corners are set to 0dp rounded, they are
         // not affected.
-        val interpolation = if (email.isStarred) 1F else 0F
+        val interpolation = if (task.isStarred) 1F else 0F
         updateCardViewTopLeftCornerSize(interpolation)
 
         binding.executePendingBindings()
@@ -106,7 +106,7 @@ class EmailViewHolder(
 
     override fun onRebounded() {
         val email = binding.email ?: return
-        binding.listener?.onEmailStarChanged(email, !email.isStarred)
+        binding.listener?.onTaskStarChanged(email, !email.isStarred)
     }
 
     // We have to update the shape appearance itself to have the MaterialContainerTransform pick up

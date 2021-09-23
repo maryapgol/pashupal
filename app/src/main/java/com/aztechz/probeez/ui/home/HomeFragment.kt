@@ -28,8 +28,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.aztechz.probeez.MainActivity
 import com.aztechz.probeez.R
-import com.aztechz.probeez.data.Email
-import com.aztechz.probeez.data.EmailStore
+import com.aztechz.probeez.data.Task
+import com.aztechz.probeez.data.TaskStore
 import com.aztechz.probeez.databinding.FragmentHomeBinding
 import com.aztechz.probeez.ui.MenuBottomSheetDialogFragment
 import com.aztechz.probeez.ui.nav.NavigationModel
@@ -37,13 +37,13 @@ import com.aztechz.probeez.ui.nav.NavigationModel
 /**
  * A [Fragment] that displays a list of emails.
  */
-class HomeFragment : Fragment(), EmailAdapter.EmailAdapterListener {
+class HomeFragment : Fragment(), TaskAdapter.TaskAdapterListener {
 
     private val args: HomeFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val emailAdapter = EmailAdapter(this)
+    private val emailAdapter = TaskAdapter(this)
 
     // An on back pressed callback that handles replacing any non-Inbox HomeFragment with inbox
     // on back pressed.
@@ -89,18 +89,18 @@ class HomeFragment : Fragment(), EmailAdapter.EmailAdapterListener {
         }
         binding.recyclerView.adapter = emailAdapter
 
-        EmailStore.getEmails(args.mailbox).observe(viewLifecycleOwner) {
+        TaskStore.getTasks(args.mailbox).observe(viewLifecycleOwner) {
             emailAdapter.submitList(it)
         }
     }
 
-    override fun onEmailClicked(cardView: View, email: Email) {
+    override fun onTaskClicked(cardView: View, task: Task) {
         // TODO: Set up MaterialElevationScale transition as exit and reenter transitions.
-        val directions = HomeFragmentDirections.actionHomeFragmentToEmailFragment(email.id)
+        val directions = HomeFragmentDirections.actionHomeFragmentToTaskFragment(task.id)
         findNavController().navigate(directions)
     }
 
-    override fun onEmailLongPressed(email: Email): Boolean {
+    override fun onTaskLongPressed(task: Task): Boolean {
         MenuBottomSheetDialogFragment
           .newInstance(R.menu.email_bottom_sheet_menu)
           .show(parentFragmentManager, null)
@@ -108,11 +108,11 @@ class HomeFragment : Fragment(), EmailAdapter.EmailAdapterListener {
         return true
     }
 
-    override fun onEmailStarChanged(email: Email, newValue: Boolean) {
-        EmailStore.update(email.id) { isStarred = newValue }
+    override fun onTaskStarChanged(task: Task, newValue: Boolean) {
+        TaskStore.update(task.id) { isStarred = newValue }
     }
 
-    override fun onEmailArchived(email: Email) {
-        EmailStore.delete(email.id)
+    override fun onTaskArchived(task: Task) {
+        TaskStore.delete(task.id)
     }
 }

@@ -30,11 +30,11 @@ object AccountStore {
         Account(
             1L,
             0L,
-            "Jeff",
-            "Hansen",
-            "hikingfan@gmail.com",
-            "hkngfan@outside.com",
-            R.drawable.avatar_10,
+            "Select",
+            "Vendor",
+            "",
+            "",
+            R.drawable.avatar_5,
             true
         ),
         Account(
@@ -51,10 +51,10 @@ object AccountStore {
             0L,
             "Jeff",
             "Hansen",
-            "jeffersonc@google.com",
-            "jeffersonc@gmail.com",
-            R.drawable.avatar_9
-        )
+            "hikingfan@gmail.com",
+            "hkngfan@outside.com",
+            R.drawable.avatar_10
+        ),
     )
 
     private val allUserContactAccounts = listOf(

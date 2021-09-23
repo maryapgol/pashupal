@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.aztechz.probeez.ui.email
+package com.aztechz.probeez.ui.task
 
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aztechz.probeez.R
-import com.aztechz.probeez.ui.common.EmailAttachmentAdapter
+import com.aztechz.probeez.ui.common.TaskAttachmentAdapter
 import kotlin.random.Random
 
-class EmailAttachmentGridAdapter(
+class TaskAttachmentGridAdapter(
     private val spans: Int
-) : EmailAttachmentAdapter() {
+) : TaskAttachmentAdapter() {
 
     /**
      * A [GridLayoutManager.SpanSizeLookup] which randomly assigns a span count to each item
@@ -58,5 +58,5 @@ class EmailAttachmentGridAdapter(
     }
 
     override fun getLayoutIdForPosition(position: Int): Int =
-        R.layout.email_attachment_grid_item_layout
+        R.layout.task_attachment_grid_item_layout
 }

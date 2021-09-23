@@ -19,7 +19,7 @@ package com.aztechz.probeez.ui.nav
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aztechz.probeez.R
-import com.aztechz.probeez.data.EmailStore
+import com.aztechz.probeez.data.TaskStore
 import com.aztechz.probeez.ui.home.Mailbox
 
 /**
@@ -100,7 +100,7 @@ object NavigationModel {
     private fun postListUpdate() {
         val newList = navigationMenuItems +
             (NavigationModelItem.NavDivider("Folders")) +
-            EmailStore.getAllFolders().map { NavigationModelItem.NavEmailFolder(it) }
+            TaskStore.getAllFolders().map { NavigationModelItem.NavTaskFolder(it) }
 
         _navigationList.value = newList
     }

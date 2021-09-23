@@ -14,13 +14,13 @@
             app:argType="com.aztechz.probeez.ui.home.Mailbox"
             android:defaultValue="HOME" />
         <action
-            android:id="@+id/action_homeFragment_to_emailFragment"
-            app:destination="@id/emailFragment" />
+            android:id="@+id/action_homeFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
     </fragment>
     <fragment
-        android:id="@+id/emailFragment"
-        android:name="com.aztechz.probeez.ui.email.EmailFragment"
-        android:label="EmailFragment">
+        android:id="@+id/taskFragment"
+        android:name="com.aztechz.probeez.ui.task.TaskFragment"
+        android:label="TaskFragment">
         <argument
             android:name="emailId"
             app:argType="long" />
@@ -30,7 +30,7 @@
         android:name="com.aztechz.probeez.ui.compose.ComposeFragment"
         android:label="ComposeFragment">
         <argument
-            android:name="replyToEmailId"
+            android:name="replyToTaskId"
             app:argType="long"
             android:defaultValue="-1L"/>
     </fragment>

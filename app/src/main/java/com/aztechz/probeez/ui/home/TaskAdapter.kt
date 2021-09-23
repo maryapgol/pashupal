@@ -20,27 +20,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.aztechz.probeez.data.Email
-import com.aztechz.probeez.data.EmailDiffCallback
-import com.aztechz.probeez.databinding.EmailItemLayoutBinding
+import com.aztechz.probeez.data.Task
+import com.aztechz.probeez.data.TaskDiffCallback
+import com.aztechz.probeez.databinding.TaskItemLayoutBinding
 
 /**
- * Simple adapter to display Email's in MainActivity.
+ * Simple adapter to display Task's in MainActivity.
  */
-class EmailAdapter(
-        private val listener: EmailAdapterListener
-) : ListAdapter<Email, EmailViewHolder>(EmailDiffCallback) {
+class TaskAdapter(
+        private val listener: TaskAdapterListener
+) : ListAdapter<Task, TaskViewHolder>(TaskDiffCallback) {
 
-    interface EmailAdapterListener {
-        fun onEmailClicked(cardView: View, email: Email)
-        fun onEmailLongPressed(email: Email): Boolean
-        fun onEmailStarChanged(email: Email, newValue: Boolean)
-        fun onEmailArchived(email: Email)
+    interface TaskAdapterListener {
+        fun onTaskClicked(cardView: View, task: Task)
+        fun onTaskLongPressed(task: Task): Boolean
+        fun onTaskStarChanged(task: Task, newValue: Boolean)
+        fun onTaskArchived(task: Task)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmailViewHolder {
-        return EmailViewHolder(
-            EmailItemLayoutBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+        return TaskViewHolder(
+            TaskItemLayoutBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -49,7 +49,7 @@ class EmailAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: EmailViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }

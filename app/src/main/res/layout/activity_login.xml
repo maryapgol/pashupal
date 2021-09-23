@@ -25,13 +25,13 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signinEmailPhoneTextInp"
+        android:id="@+id/signinTaskPhoneTextInp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_15sdp"
         android:hint="@string/email_address_phone"
-        android:inputType="textEmailAddress"
+        android:inputType="textEmailAddress|phone"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +39,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -54,7 +53,7 @@
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signinEmailPhoneTextInp"
+        app:layout_constraintTop_toBottomOf="@+id/signinTaskPhoneTextInp"
         app:startIconDrawable="@drawable/ic_vpn_key">
 
         <com.google.android.material.textfield.TextInputEditText

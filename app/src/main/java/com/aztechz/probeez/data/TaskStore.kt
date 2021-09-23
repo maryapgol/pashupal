@@ -23,12 +23,12 @@ import com.aztechz.probeez.R
 import com.aztechz.probeez.ui.home.Mailbox
 
 /**
- * A static data store of [Email]s.
+ * A static data store of [Task]s.
  */
-object EmailStore {
+object TaskStore {
 
-    private val allEmails = mutableListOf(
-        Email(
+    private val allTasks = mutableListOf(
+        Task(
             0L,
             AccountStore.getContactAccountById(9L),
             listOf(AccountStore.getDefaultUserAccount()),
@@ -42,7 +42,7 @@ object EmailStore {
             """.trimIndent(),
             isStarred = true
         ),
-        Email(
+        Task(
             1L,
             AccountStore.getContactAccountById(6L),
             listOf(AccountStore.getDefaultUserAccount()),
@@ -57,21 +57,21 @@ object EmailStore {
                 Ali
             """.trimIndent()
         ),
-        Email(
+        Task(
             2L,
             AccountStore.getContactAccountById(5L),
             listOf(AccountStore.getDefaultUserAccount()),
             "Bonjour from Paris",
             "Here are some great shots from my trip...",
             listOf(
-                EmailAttachment(R.drawable.paris_1, "Bridge in Paris"),
-                EmailAttachment(R.drawable.paris_2, "Bridge in Paris at night"),
-                EmailAttachment(R.drawable.paris_3, "City street in Paris"),
-                EmailAttachment(R.drawable.paris_4, "Street with bike in Paris")
+                TaskAttachment(R.drawable.paris_1, "Bridge in Paris"),
+                TaskAttachment(R.drawable.paris_2, "Bridge in Paris at night"),
+                TaskAttachment(R.drawable.paris_3, "City street in Paris"),
+                TaskAttachment(R.drawable.paris_4, "Street with bike in Paris")
             ),
             true
         ),
-        Email(
+        Task(
             3L,
             AccountStore.getContactAccountById(8L),
             listOf(AccountStore.getDefaultUserAccount()),
@@ -85,7 +85,7 @@ object EmailStore {
             """.trimIndent(),
             mailbox = Mailbox.TASKS
         ),
-        Email(
+        Task(
             4L,
             AccountStore.getContactAccountById(11L),
             listOf(
@@ -103,14 +103,14 @@ object EmailStore {
             """.trimIndent(),
             isStarred = true
         ),
-        Email(
+        Task(
             5L,
             AccountStore.getContactAccountById(13L),
             listOf(AccountStore.getDefaultUserAccount()),
             "Update to Your Itinerary",
             ""
         ),
-        Email(
+        Task(
             6L,
             AccountStore.getContactAccountById(10L),
             listOf(AccountStore.getDefaultUserAccount()),
@@ -119,14 +119,14 @@ object EmailStore {
                 "very quick to put together.",
             mailbox = Mailbox.TASKS
         ),
-        Email(
+        Task(
             7L,
             AccountStore.getContactAccountById(9L),
             listOf(AccountStore.getDefaultUserAccount()),
             "Delivered",
             "Your shoes should be waiting for you at home!"
         ),
-        Email(
+        Task(
           8L,
           AccountStore.getContactAccountById(13L),
           listOf(AccountStore.getDefaultUserAccount()),
@@ -138,7 +138,7 @@ object EmailStore {
           """.trimIndent(),
           mailbox = Mailbox.REPORTS
         ),
-        Email(
+        Task(
           10L,
           AccountStore.getContactAccountById(5L),
           listOf(AccountStore.getDefaultUserAccount()),
@@ -150,7 +150,7 @@ object EmailStore {
           """.trimIndent(),
           mailbox = Mailbox.REPORTS
         ),
-        Email(
+        Task(
           10L,
           AccountStore.getContactAccountById(5L),
           listOf(AccountStore.getDefaultUserAccount()),
@@ -162,38 +162,38 @@ object EmailStore {
         )
     )
 
-    private val _emails: MutableLiveData<List<Email>> = MutableLiveData()
+    private val __TASKS: MutableLiveData<List<Task>> = MutableLiveData()
 
-    private val home: LiveData<List<Email>>
-        get() = Transformations.map(_emails) { emails ->
+    private val home: LiveData<List<Task>>
+        get() = Transformations.map(__TASKS) { emails ->
             emails.filter { it.mailbox == Mailbox.HOME }
         }
 
-    private val profile: LiveData<List<Email>>
-        get() = Transformations.map(_emails) { emails ->
+    private val profile: LiveData<List<Task>>
+        get() = Transformations.map(__TASKS) { emails ->
             emails.filter { it.isStarred }
         }
 
-    private val tasks: LiveData<List<Email>>
-        get() = Transformations.map(_emails) { emails ->
+    private val tasks: LiveData<List<Task>>
+        get() = Transformations.map(__TASKS) { emails ->
             emails.filter { it.mailbox == Mailbox.TASKS }
         }
 
-    private val reports: LiveData<List<Email>>
-        get() = Transformations.map(_emails) { emails ->
+    private val reports: LiveData<List<Task>>
+        get() = Transformations.map(__TASKS) { emails ->
             emails.filter { it.mailbox == Mailbox.REPORTS }
         }
 
-    private val settings: LiveData<List<Email>>
-        get() = Transformations.map(_emails) { emails ->
+    private val settings: LiveData<List<Task>>
+        get() = Transformations.map(__TASKS) { emails ->
             emails.filter { it.mailbox == Mailbox.SETTINGS }
         }
 
     init {
-        _emails.value = allEmails
+        __TASKS.value = allTasks
     }
 
-    fun getEmails(mailbox: Mailbox): LiveData<List<Email>> {
+    fun getTasks(mailbox: Mailbox): LiveData<List<Task>> {
         return when (mailbox) {
             Mailbox.HOME -> home
             Mailbox.PROFILE -> profile
@@ -204,31 +204,31 @@ object EmailStore {
     }
 
     /**
-     * Get an [Email] with the given [id].
+     * Get an [Task] with the given [id].
      */
-    fun get(id: Long): Email? {
-        return allEmails.firstOrNull { it.id == id }
+    fun get(id: Long): Task? {
+        return allTasks.firstOrNull { it.id == id }
     }
 
     /**
-     * Create a new, blank [Email].
+     * Create a new, blank [Task].
      */
-    fun create(): Email {
-        return Email(
+    fun create(): Task {
+        return Task(
             System.nanoTime(), // Unique ID generation.
             AccountStore.getDefaultUserAccount()
         )
     }
 
     /**
-     * Create a new [Email] that is a reply to the email with the given [replyToId].
+     * Create a new [Task] that is a reply to the email with the given [replyToId].
      */
-    fun createReplyTo(replyToId: Long): Email {
+    fun createReplyTo(replyToId: Long): Task {
         val replyTo = get(replyToId) ?: return create()
-        return Email(
+        return Task(
             id = System.nanoTime(),
-            sender = replyTo.recipients.firstOrNull() ?: AccountStore.getDefaultUserAccount(),
-            recipients = listOf(replyTo.sender) + replyTo.recipients,
+            sender = replyTo.vendors.firstOrNull() ?: AccountStore.getDefaultUserAccount(),
+            vendors = listOf(replyTo.sender) + replyTo.vendors,
             subject = replyTo.subject,
             isStarred = replyTo.isStarred,
             isImportant = replyTo.isImportant
@@ -236,24 +236,24 @@ object EmailStore {
     }
 
     /**
-     * Delete the [Email] with the given [id].
+     * Delete the [Task] with the given [id].
      */
     fun delete(id: Long) {
         update(id) { mailbox = Mailbox.REPORTS }
     }
 
     /**
-     * Update the [Email] with the given [id] by applying all mutations from [with].
+     * Update the [Task] with the given [id] by applying all mutations from [with].
      */
-    fun update(id: Long, with: Email.() -> Unit) {
-        allEmails.find { it.id == id }?.let {
+    fun update(id: Long, with: Task.() -> Unit) {
+        allTasks.find { it.id == id }?.let {
             it.with()
-            _emails.value = allEmails
+            __TASKS.value = allTasks
         }
     }
 
     /**
-     * Get a list of [EmailFolder]s by which [Email]s can be categorized.
+     * Get a list of [TaskFolder]s by which [Task]s can be categorized.
      */
     fun getAllFolders() = listOf(
         "Images",

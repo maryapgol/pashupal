@@ -19,17 +19,17 @@ package com.aztechz.probeez.ui.common
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
-import com.aztechz.probeez.data.EmailAttachment
+import com.aztechz.probeez.data.TaskAttachment
 
 /**
  * Generic RecyclerView.ViewHolder which is able to bind layouts which expose a variable
- * for an [EmailAttachment].
+ * for an [TaskAttachment].
  */
-class EmailAttachmentViewHolder(
+class TaskAttachmentViewHolder(
     private val binding: ViewDataBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(attachment: EmailAttachment) {
+    fun bind(attachment: TaskAttachment) {
         binding.run {
             setVariable(BR.emailAttachment, attachment)
             executePendingBindings()

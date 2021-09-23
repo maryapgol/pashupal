@@ -9,10 +9,10 @@
     <data>
         <variable
             name="email"
-            type="com.aztechz.probeez.data.Email" />
+            type="com.aztechz.probeez.data.Task" />
         <variable
             name="listener"
-            type="com.aztechz.probeez.ui.home.EmailAdapter.EmailAdapterListener" />
+            type="com.aztechz.probeez.ui.home.TaskAdapter.TaskAdapterListener" />
     </data>
 
     <FrameLayout
@@ -31,8 +31,8 @@
             android:elevation="@dimen/plane_00"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{(view) -> listener.onEmailClicked(view, email)}"
-            android:onLongClick="@{(view) -> listener.onEmailLongPressed(email)}"
+            android:onClick="@{(view) -> listener.onTaskClicked(view, email)}"
+            android:onLongClick="@{(view) -> listener.onTaskLongPressed(email)}"
             app:cardPreventCornerOverlap="false">
 
             <androidx.constraintlayout.widget.ConstraintLayout

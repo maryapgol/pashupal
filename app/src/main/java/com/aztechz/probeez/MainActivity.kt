@@ -31,11 +31,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import com.aztechz.probeez.databinding.ActivityMainBinding
-import com.aztechz.probeez.R
-import com.aztechz.probeez.data.EmailStore
+import com.aztechz.probeez.data.TaskStore
 import com.aztechz.probeez.ui.MenuBottomSheetDialogFragment
 import com.aztechz.probeez.ui.compose.ComposeFragmentDirections
-import com.aztechz.probeez.ui.email.EmailFragmentArgs
+import com.aztechz.probeez.ui.task.TaskFragmentArgs
 import com.aztechz.probeez.ui.home.HomeFragmentDirections
 import com.aztechz.probeez.ui.home.Mailbox
 import com.aztechz.probeez.ui.nav.AlphaSlideAction
@@ -60,9 +59,9 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
     }
 
-    // Keep track of the current Email being viewed, if any, in order to pass the correct email id
+    // Keep track of the current Task being viewed, if any, in order to pass the correct email id
     // to ComposeFragment when this Activity's FAB is clicked.
-    private var currentEmailId = -1L
+    private var currentTaskId = -1L
 
     val currentNavigationFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
@@ -130,26 +129,26 @@ class MainActivity : AppCompatActivity(),
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        // Set the currentEmail being viewed so when the FAB is pressed, the correct email
+        // Set the currentTask being viewed so when the FAB is pressed, the correct email
         // reply is created. In a real app, this should be done in a ViewModel but is done
         // here to keep things simple. Here we're also setting the configuration of the
         // BottomAppBar and FAB based on the current destination.
         when (destination.id) {
             R.id.homeFragment -> {
-                currentEmailId = -1
+                currentTaskId = -1
                 setBottomAppBarForHome(getBottomAppBarMenuForDestination(destination))
             }
-            R.id.emailFragment -> {
-                currentEmailId =
-                    if (arguments == null) -1 else EmailFragmentArgs.fromBundle(arguments).emailId
-                setBottomAppBarForEmail(getBottomAppBarMenuForDestination(destination))
+            R.id.taskFragment -> {
+                currentTaskId =
+                    if (arguments == null) -1 else TaskFragmentArgs.fromBundle(arguments).emailId
+                setBottomAppBarForTask(getBottomAppBarMenuForDestination(destination))
             }
             R.id.composeFragment -> {
-                currentEmailId = -1
+                currentTaskId = -1
                 setBottomAppBarForCompose()
             }
             R.id.searchFragment -> {
-                currentEmailId = -1
+                currentTaskId = -1
                 setBottomAppBarForSearch()
             }
         }
@@ -168,7 +167,7 @@ class MainActivity : AppCompatActivity(),
         val dest = destination ?: findNavController(R.id.nav_host_fragment).currentDestination
         return when (dest?.id) {
             R.id.homeFragment -> R.menu.bottom_app_bar_home_menu
-            R.id.emailFragment -> R.menu.bottom_app_bar_email_menu
+            R.id.taskFragment -> R.menu.bottom_app_bar_email_menu
             else -> R.menu.bottom_app_bar_home_menu
         }
     }
@@ -185,7 +184,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun setBottomAppBarForEmail(@MenuRes menuRes: Int) {
+    private fun setBottomAppBarForTask(@MenuRes menuRes: Int) {
         binding.run {
             fab.setImageState(intArrayOf(android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
@@ -233,7 +232,7 @@ class MainActivity : AppCompatActivity(),
         navigateToHome(item.titleRes, item.mailbox)
     }
 
-    override fun onNavEmailFolderClicked(folder: NavigationModelItem.NavEmailFolder) {
+    override fun onNavTaskFolderClicked(folder: NavigationModelItem.NavTaskFolder) {
         // Do nothing
     }
 
@@ -245,10 +244,10 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.menu_search -> navigateToSearch()
             R.id.menu_email_star -> {
-                EmailStore.update(currentEmailId) { isStarred = !isStarred }
+                TaskStore.update(currentTaskId) { isStarred = !isStarred }
             }
             R.id.menu_email_delete -> {
-                EmailStore.delete(currentEmailId)
+                TaskStore.delete(currentTaskId)
                 findNavController(R.id.nav_host_fragment).popBackStack()
             }
         }
@@ -270,7 +269,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun navigateToCompose() {
         // TODO: Set up MaterialElevationScale transition as exit and reenter transitions.
-        val directions = ComposeFragmentDirections.actionGlobalComposeFragment(currentEmailId)
+        val directions = ComposeFragmentDirections.actionGlobalComposeFragment(currentTaskId)
         findNavController(R.id.nav_host_fragment).navigate(directions)
     }
 

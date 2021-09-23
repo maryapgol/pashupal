@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="navEmailFolder"
-            type="com.aztechz.probeez.ui.nav.NavigationModelItem.NavEmailFolder" />
+            name="navTaskFolder"
+            type="com.aztechz.probeez.ui.nav.NavigationModelItem.NavTaskFolder" />
         <variable
             name="navListener"
             type="com.aztechz.probeez.ui.nav.NavigationAdapter.NavigationAdapterListener" />
@@ -20,10 +20,10 @@
         android:paddingRight="@dimen/grid_4"
         android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical|start"
-        android:onClick="@{() -> navListener.onNavEmailFolderClicked(navEmailFolder)}"
+        android:onClick="@{() -> navListener.onNavTaskFolderClicked(navTaskFolder)}"
         android:ellipsize="end"
         android:lines="1"
-        android:text="@{navEmailFolder.emailFolder}"
+        android:text="@{navTaskFolder.emailFolder}"
         android:textColor="@color/color_on_primary_surface_emphasis_medium"
         android:textAppearance="?attr/textAppearanceSubtitle1"
         app:drawableStartCompat="@drawable/ic_twotone_folder"

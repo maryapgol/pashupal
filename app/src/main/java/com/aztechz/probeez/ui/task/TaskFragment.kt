@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aztechz.probeez.ui.email
+package com.aztechz.probeez.ui.task
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,8 +24,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.aztechz.probeez.data.EmailStore
-import com.aztechz.probeez.databinding.FragmentEmailBinding
+import com.aztechz.probeez.data.TaskStore
+import com.aztechz.probeez.databinding.FragmentTaskBinding
 import kotlin.LazyThreadSafetyMode.NONE
 
 private const val MAX_GRID_SPANS = 3
@@ -33,13 +33,13 @@ private const val MAX_GRID_SPANS = 3
 /**
  * A [Fragment] which displays a single, full email.
  */
-class EmailFragment : Fragment() {
+class TaskFragment : Fragment() {
 
-    private val args: EmailFragmentArgs by navArgs()
+    private val args: TaskFragmentArgs by navArgs()
     private val emailId: Long by lazy(NONE) { args.emailId }
 
-    private lateinit var binding: FragmentEmailBinding
-    private val attachmentAdapter = EmailAttachmentGridAdapter(MAX_GRID_SPANS)
+    private lateinit var binding: FragmentTaskBinding
+    private val attachmentAdapter = TaskAttachmentGridAdapter(MAX_GRID_SPANS)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class EmailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentEmailBinding.inflate(inflater, container, false)
+        binding = FragmentTaskBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -63,7 +63,7 @@ class EmailFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val email = EmailStore.get(emailId)
+        val email = TaskStore.get(emailId)
         if (email == null) {
             showError()
             return
