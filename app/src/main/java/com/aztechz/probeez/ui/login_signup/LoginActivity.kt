@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.aztechz.probeez.MainActivity
 import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.ActivityLoginBinding
+import com.aztechz.probeez.util.DataProcessor
 import com.aztechz.probeez.util.contentView
 
 class LoginActivity : AppCompatActivity() {
@@ -14,8 +15,15 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.btnLogin.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        binding.apply {
+            btnLogin.setOnClickListener {
+                DataProcessor(applicationContext).setStr("cred",signinTaskPhoneTextInp.editText.toString())
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            }
+
+            signUptextView.setOnClickListener {
+                startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
+            }
         }
     }
 }

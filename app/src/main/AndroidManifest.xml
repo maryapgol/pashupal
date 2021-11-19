@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aztechz.probeez">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyApplication"
         android:autoLink="phone"
@@ -13,8 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Probeez.DayNight"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.login_signup.SignupActivity"
             android:exported="true" />

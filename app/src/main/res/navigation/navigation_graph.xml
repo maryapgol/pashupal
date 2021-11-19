@@ -50,4 +50,11 @@
     <action
         android:id="@+id/action_global_searchFragment"
         app:destination="@+id/searchFragment" />
+    <action
+        android:id="@+id/action_global_profileViewFragment"
+        app:destination="@+id/profileViewFragment" />
+    <fragment
+        android:id="@+id/profileViewFragment"
+        android:name="com.aztechz.probeez.ui.profile.ProfileViewFragment"
+        android:label="ProfileViewFragment" />
 </navigation>

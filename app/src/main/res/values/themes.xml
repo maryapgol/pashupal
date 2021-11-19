@@ -3,7 +3,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--Final, top-level theme-->
-    <style name="Theme.Probeez.DayNight" parent="Theme.Probeez"/>
+    <style name="Theme.Probeez.DayNight" parent="Theme.Probeez" />
 
     <style name="Theme.Probeez" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
@@ -28,9 +28,12 @@
         <item name="android:statusBarColor">@color/probeez_blue_50_alpha_060</item>
         <item name="android:navigationBarColor">@color/nav_bar</item>
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Probeez.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Probeez.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Probeez.LargeComponent</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Probeez.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Probeez.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Probeez.LargeComponent
+        </item>
 
         <!--Typography-->
         <item name="textAppearanceHeadline2">@style/TextAppearance.Probeez.Headline2</item>
@@ -55,7 +58,9 @@
         <item name="motionInterpolatorOutgoing">@android:interpolator/accelerate_cubic</item>
 
         <!--Styles-->
-        <item name="bottomAppBarStyle">@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface</item>
+        <item name="bottomAppBarStyle">
+            @style/Widget.MaterialComponents.BottomAppBar.PrimarySurface
+        </item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
         <item name="navigationViewStyle">@style/Widget.Probeez.NavigationView</item>
         <item name="chipStyle">@style/Widget.Probeez.Chip.Entry</item>
@@ -64,4 +69,13 @@
         <item name="android:windowBackground">?android:colorBackground</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
+
+    <style name="Theme.Probeez.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Probeez.DayNight.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Probeez.DayNight.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

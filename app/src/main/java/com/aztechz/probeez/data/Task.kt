@@ -39,8 +39,6 @@ data class Task(
     val vendorsPreview: String = vendors
         .map { it.firstName }
         .fold("") { name, acc -> "$acc, $name" }
-    val nonUserAccountVendors = vendors
-        .filterNot { AccountStore.isUserAccount(it.uid) }
 }
 
 object TaskDiffCallback : DiffUtil.ItemCallback<Task>() {

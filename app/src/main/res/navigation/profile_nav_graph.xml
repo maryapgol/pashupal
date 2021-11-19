@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_nav_graph.xml"
+    app:startDestination="@id/profileImageFragment">
+
+
+    <fragment
+        android:id="@+id/profileImageFragment"
+        android:name="com.aztechz.probeez.ui.profile.ProfileImageFragment"
+        android:label="fragment_profile_image"
+        tools:layout="@layout/fragment_profile_image" >
+        <action
+            android:id="@+id/action_profileImageFragment_to_profilePersonalFragment"
+            app:destination="@id/profilePersonalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profilePersonalFragment"
+        android:name="com.aztechz.probeez.ui.profile.ProfilePersonalFragment"
+        android:label="fragment_profile_personal"
+        tools:layout="@layout/fragment_profile_personal" >
+        <action
+            android:id="@+id/action_profilePersonalFragment_to_profileProfessionalFragment"
+            app:destination="@id/profileProfessionalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileProfessionalFragment"
+        android:name="com.aztechz.probeez.ui.profile.ProfileProfessionalFragment"
+        android:label="fragment_profile_professional"
+        tools:layout="@layout/fragment_profile_professional" >
+        <action
+            android:id="@+id/action_profileProfessionalFragment_to_profileProfessionalCategoryFragment"
+            app:destination="@id/profileProfessionalCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileAssetsFragment"
+        android:name="com.aztechz.probeez.ui.profile.ProfileAssetsFragment"
+        android:label="fragment_profile_assets"
+        tools:layout="@layout/fragment_profile_assets" />
+    <fragment
+        android:id="@+id/profileProfessionalCategoryFragment"
+        android:name="com.aztechz.probeez.ui.profile.ProfileProfessionalCategoryFragment"
+        android:label="ProfileProfessionalCategoryFragment"
+        tools:layout="@layout/fragment_profile_professional_category">
+        <action
+            android:id="@+id/action_profileProfessionalCategoryFragment_to_profileAssetsFragment"
+            app:destination="@id/profileAssetsFragment" />
+        <action
+            android:id="@+id/action_profileProfessionalCategoryFragment_self"
+            app:destination="@id/profileProfessionalCategoryFragment" />
+    </fragment>
+</navigation>

@@ -158,7 +158,7 @@ object TaskStore {
           """
             You've been selected as a winner in our latest raffle! To claim your prize, click on the link.
           """.trimIndent(),
-          mailbox = Mailbox.SETTINGS
+          mailbox = Mailbox.REPORTS
         )
     )
 
@@ -184,11 +184,6 @@ object TaskStore {
             emails.filter { it.mailbox == Mailbox.REPORTS }
         }
 
-    private val settings: LiveData<List<Task>>
-        get() = Transformations.map(__TASKS) { emails ->
-            emails.filter { it.mailbox == Mailbox.SETTINGS }
-        }
-
     init {
         __TASKS.value = allTasks
     }
@@ -199,7 +194,6 @@ object TaskStore {
             Mailbox.PROFILE -> profile
             Mailbox.TASKS -> tasks
             Mailbox.REPORTS -> reports
-            Mailbox.SETTINGS -> settings
         }
     }
 

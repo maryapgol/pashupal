@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_twotone_inbox"
+        app:showAsAction="never"
+        android:title="@string/navigation_home"/>
+
+    <item
+        android:id="@+id/menu_tasks"
+        android:icon="@drawable/ic_twotone_send"
+        app:showAsAction="never"
+        android:title="@string/navigation_tasks"/>
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_twotone_stars"
+        app:showAsAction="never"
+        android:title="@string/navigation_search"/>
+
+    <item
+        android:id="@+id/menu_reports"
+        android:icon="@drawable/ic_twotone_folder"
+        app:showAsAction="never"
+        android:title="@string/navigation_reports"/>
+
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_twotone_delete"
+        app:showAsAction="never"
+        android:title="@string/navigation_settings"/>
+<!--
+    <item
+        android:id="@+id/menu_folders"
+        android:icon="@drawable/ic_twotone_folder"
+        app:showAsAction="never"
+        android:title="@string/navigation_folders">
+
+        <menu>
+
+            <item
+                android:id="@+id/menu_images"
+                app:showAsAction="never"
+                android:title="@string/navigation_folders_images"/>
+
+            <item
+                android:id="@+id/menu_videos"
+                app:showAsAction="never"
+                android:title="@string/navigation_folders_videos"/>
+
+            <item
+                android:id="@+id/menu_docs"
+                app:showAsAction="never"
+                android:title="@string/navigation_folders_docs"/>
+
+        </menu>
+
+    </item>-->
+
+</menu>

@@ -16,268 +16,59 @@
 
 package com.aztechz.probeez
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.annotation.MenuRes
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.aztechz.probeez.databinding.ActivityMainBinding
-import com.aztechz.probeez.data.TaskStore
-import com.aztechz.probeez.ui.MenuBottomSheetDialogFragment
-import com.aztechz.probeez.ui.compose.ComposeFragmentDirections
-import com.aztechz.probeez.ui.task.TaskFragmentArgs
-import com.aztechz.probeez.ui.home.HomeFragmentDirections
-import com.aztechz.probeez.ui.home.Mailbox
-import com.aztechz.probeez.ui.nav.AlphaSlideAction
-import com.aztechz.probeez.ui.nav.BottomNavDrawerFragment
-import com.aztechz.probeez.ui.nav.ChangeSettingsMenuStateAction
-import com.aztechz.probeez.ui.nav.HalfClockwiseRotateSlideAction
-import com.aztechz.probeez.ui.nav.HalfCounterClockwiseRotateSlideAction
-import com.aztechz.probeez.ui.nav.NavigationAdapter
-import com.aztechz.probeez.ui.nav.NavigationModelItem
-import com.aztechz.probeez.ui.nav.ShowHideFabStateAction
-import com.aztechz.probeez.ui.search.SearchFragmentDirections
-import com.aztechz.probeez.util.contentView
-import kotlin.LazyThreadSafetyMode.NONE
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(),
-                     Toolbar.OnMenuItemClickListener,
-                     NavController.OnDestinationChangedListener,
-                     NavigationAdapter.NavigationAdapterListener {
+class MainActivity : AppCompatActivity() {
 
-    private val binding: ActivityMainBinding by contentView(R.layout.activity_main)
-    private val bottomNavDrawer: BottomNavDrawerFragment by lazy(NONE) {
-        supportFragmentManager.findFragmentById(R.id.bottom_nav_drawer) as BottomNavDrawerFragment
-    }
+    private val TAG = "MainActivity"
 
-    // Keep track of the current Task being viewed, if any, in order to pass the correct email id
-    // to ComposeFragment when this Activity's FAB is clicked.
-    private var currentTaskId = -1L
+    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
 
-    val currentNavigationFragment: Fragment?
-        get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                ?.childFragmentManager
-                ?.fragments
-                ?.first()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpBottomNavigationAndFab()
-    }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-    private fun setUpBottomNavigationAndFab() {
-        // Wrap binding.run to ensure ContentViewBindingDelegate is calling this Activity's
-        // setContentView before accessing views
-        binding.run {
-            findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener(
-                this@MainActivity
+
+        setSupportActionBar(findViewById(R.id.toolbar_main))
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+
+
+        //Setting the navigation controller to Bottom Nav
+        findViewById<BottomNavigationView>(R.id.bottomNav).setupWithNavController(navController)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.tasksFragment,
+                R.id.searchFragment,
+                R.id.reportsFragment,
+                R.id.settingsFragment
             )
+        )
+
+        //Setting up the action bar
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+
+        binding.fab.setOnClickListener {
+            navController.navigate(R.id.composeFragment)
         }
 
-        // Set a custom animation for showing and hiding the FAB
-        binding.fab.apply {
-            setShowMotionSpecResource(R.animator.fab_show)
-            setHideMotionSpecResource(R.animator.fab_hide)
-            setOnClickListener {
-                navigateToCompose()
-            }
-        }
-
-        bottomNavDrawer.apply {
-            addOnSlideAction(HalfClockwiseRotateSlideAction(binding.bottomAppBarChevron))
-            addOnSlideAction(AlphaSlideAction(binding.bottomAppBarTitle, true))
-            addOnStateChangedAction(ShowHideFabStateAction(binding.fab))
-            addOnStateChangedAction(ChangeSettingsMenuStateAction { showSettings ->
-                // Toggle between the current destination's BAB menu and the menu which should
-                // be displayed when the BottomNavigationDrawer is open.
-                binding.bottomAppBar.replaceMenu(if (showSettings) {
-                    R.menu.bottom_app_bar_settings_menu
-                } else {
-                    getBottomAppBarMenuForDestination()
-                })
-            })
-
-            addOnSandwichSlideAction(HalfCounterClockwiseRotateSlideAction(binding.bottomAppBarChevron))
-            addNavigationListener(this@MainActivity)
-        }
-
-        // Set up the BottomAppBar menu
-        binding.bottomAppBar.apply {
-            setNavigationOnClickListener {
-                bottomNavDrawer.toggle()
-            }
-            setOnMenuItemClickListener(this@MainActivity)
-        }
-
-        // Set up the BottomNavigationDrawer's open/close affordance
-        binding.bottomAppBarContentContainer.setOnClickListener {
-            bottomNavDrawer.toggle()
-        }
     }
 
-    override fun onDestinationChanged(
-        controller: NavController,
-        destination: NavDestination,
-        arguments: Bundle?
-    ) {
-        // Set the currentTask being viewed so when the FAB is pressed, the correct email
-        // reply is created. In a real app, this should be done in a ViewModel but is done
-        // here to keep things simple. Here we're also setting the configuration of the
-        // BottomAppBar and FAB based on the current destination.
-        when (destination.id) {
-            R.id.homeFragment -> {
-                currentTaskId = -1
-                setBottomAppBarForHome(getBottomAppBarMenuForDestination(destination))
-            }
-            R.id.taskFragment -> {
-                currentTaskId =
-                    if (arguments == null) -1 else TaskFragmentArgs.fromBundle(arguments).emailId
-                setBottomAppBarForTask(getBottomAppBarMenuForDestination(destination))
-            }
-            R.id.composeFragment -> {
-                currentTaskId = -1
-                setBottomAppBarForCompose()
-            }
-            R.id.searchFragment -> {
-                currentTaskId = -1
-                setBottomAppBarForSearch()
-            }
-        }
-    }
 
-    /**
-     * Helper function which returns the menu which should be displayed for the current
-     * destination.
-     *
-     * Used both when the destination has changed, centralizing destination-to-menu mapping, as
-     * well as switching between the alternate menu used when the BottomNavigationDrawer is
-     * open and closed.
-     */
-    @MenuRes
-    private fun getBottomAppBarMenuForDestination(destination: NavDestination? = null): Int {
-        val dest = destination ?: findNavController(R.id.nav_host_fragment).currentDestination
-        return when (dest?.id) {
-            R.id.homeFragment -> R.menu.bottom_app_bar_home_menu
-            R.id.taskFragment -> R.menu.bottom_app_bar_email_menu
-            else -> R.menu.bottom_app_bar_home_menu
-        }
-    }
-
-    private fun setBottomAppBarForHome(@MenuRes menuRes: Int) {
-        binding.run {
-            fab.setImageState(intArrayOf(-android.R.attr.state_activated), true)
-            bottomAppBar.visibility = View.VISIBLE
-            bottomAppBar.replaceMenu(menuRes)
-            fab.contentDescription = getString(R.string.fab_compose_email_content_description)
-            bottomAppBarTitle.visibility = View.VISIBLE
-            bottomAppBar.performShow()
-            fab.show()
-        }
-    }
-
-    private fun setBottomAppBarForTask(@MenuRes menuRes: Int) {
-        binding.run {
-            fab.setImageState(intArrayOf(android.R.attr.state_activated), true)
-            bottomAppBar.visibility = View.VISIBLE
-            bottomAppBar.replaceMenu(menuRes)
-            fab.contentDescription = getString(R.string.fab_probeez_email_content_description)
-            bottomAppBarTitle.visibility = View.INVISIBLE
-            bottomAppBar.performShow()
-            fab.show()
-        }
-    }
-
-    private fun setBottomAppBarForCompose() {
-        hideBottomAppBar()
-    }
-
-    private fun setBottomAppBarForSearch() {
-        hideBottomAppBar()
-        binding.fab.hide()
-    }
-
-    private fun hideBottomAppBar() {
-        binding.run {
-            bottomAppBar.performHide()
-            // Get a handle on the animator that hides the bottom app bar so we can wait to hide
-            // the fab and bottom app bar until after it's exit animation finishes.
-            bottomAppBar.animate().setListener(object : AnimatorListenerAdapter() {
-                var isCanceled = false
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (isCanceled) return
-
-                    // Hide the BottomAppBar to avoid it showing above the keyboard
-                    // when composing a new email.
-                    bottomAppBar.visibility = View.GONE
-                    fab.visibility = View.INVISIBLE
-                }
-                override fun onAnimationCancel(animation: Animator?) {
-                    isCanceled = true
-                }
-            })
-        }
-    }
-
-    override fun onNavMenuItemClicked(item: NavigationModelItem.NavMenuItem) {
-        // Swap the list of emails for the given mailbox
-        navigateToHome(item.titleRes, item.mailbox)
-    }
-
-    override fun onNavTaskFolderClicked(folder: NavigationModelItem.NavTaskFolder) {
-        // Do nothing
-    }
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.menu_settings -> {
-                bottomNavDrawer.close()
-                showDarkThemeMenu()
-            }
-            R.id.menu_search -> navigateToSearch()
-            R.id.menu_email_star -> {
-                TaskStore.update(currentTaskId) { isStarred = !isStarred }
-            }
-            R.id.menu_email_delete -> {
-                TaskStore.delete(currentTaskId)
-                findNavController(R.id.nav_host_fragment).popBackStack()
-            }
-        }
-        return true
-    }
-
-    private fun showDarkThemeMenu() {
-        MenuBottomSheetDialogFragment
-          .newInstance(R.menu.dark_theme_bottom_sheet_menu)
-          .show(supportFragmentManager, null)
-    }
-
-    fun navigateToHome(@StringRes titleRes: Int, mailbox: Mailbox) {
-        binding.bottomAppBarTitle.text = getString(titleRes)
-        // TODO: Set up MaterialFadeThrough transition as exit transition.
-        val directions = HomeFragmentDirections.actionGlobalHomeFragment(mailbox)
-        findNavController(R.id.nav_host_fragment).navigate(directions)
-    }
-
-    private fun navigateToCompose() {
-        // TODO: Set up MaterialElevationScale transition as exit and reenter transitions.
-        val directions = ComposeFragmentDirections.actionGlobalComposeFragment(currentTaskId)
-        findNavController(R.id.nav_host_fragment).navigate(directions)
-    }
-
-    private fun navigateToSearch() {
-        // TODO: Set up MaterialSharedAxis transition as exit and reenter transitions.
-        val directions = SearchFragmentDirections.actionGlobalSearchFragment()
-        findNavController(R.id.nav_host_fragment).navigate(directions)
-    }
 
     /**
      * Set this Activity's night mode based on a user's in-app selection.

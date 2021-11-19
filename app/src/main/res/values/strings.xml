@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Probeez</string>
     <string name="email_address_phone">Email Address or Phone</string>
+    <string name="email_address">Email Address</string>
+    <string name="phone">Phone</string>
     <string name="password">Password</string>
+    <string name="re_password">Re-enter password</string>
     <string name="home">Home</string>
 
     <!--BottomAppBar-->
@@ -30,8 +33,9 @@
     <!--BottomNavigationDrawer-->
     <string name="navigation_home">Home</string>
     <string name="navigation_profile">Profile</string>
-    <string name="navigation_tasks">Tasks</string>
+    <string name="navigation_tasks">My Tasks</string>
     <string name="navigation_reports">Reports</string>
+    <string name="navigation_search">Search</string>
     <string name="navigation_settings">Settings</string>
 
     <!--HomeFragment-->
@@ -59,5 +63,26 @@
     <string name="search_suggestion_hint">Search email</string>
     <string name="search_suggestion_title_yesterday">YESTERDAY</string>
     <string name="search_suggestion_title_this_week">THIS WEEK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="choose_topics_that_interest_you">Choose topics that interest you</string>
+
+    <string name="marital_status">Marital Status</string>
+    <string name="qualification">Qualification</string>
+    <string name="navigation_folders">FOLDERS</string>
+    <string name="navigation_folders_images">Images</string>
+    <string name="navigation_folders_videos">Videos</string>
+    <string name="navigation_folders_docs">Documents</string>
+    <string name="title_activity_demo">DemoActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>

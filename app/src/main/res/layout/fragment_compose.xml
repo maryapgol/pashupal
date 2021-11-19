@@ -49,7 +49,7 @@
                     app:tint="@color/color_on_surface_emphasis_disabled" />
 
                 <EditText
-                    android:id="@+id/subject_edit_text"
+                    android:id="@+id/task_title_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:minHeight="@dimen/min_touch_target_size"
@@ -83,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subject_edit_text"
+                    app:layout_constraintTop_toBottomOf="@+id/task_title_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/grid_1"
                     android:layout_marginHorizontal="@dimen/grid_2"
@@ -91,7 +91,7 @@
                     app:backgroundTint="@color/color_on_surface_divider" />
 
                 <Spinner
-                    android:id="@+id/type_spinner"
+                    android:id="@+id/task_type_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,14 +108,14 @@
                     android:layout_height="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/type_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/task_type_spinner"
                     android:layout_marginHorizontal="@dimen/grid_2"
                     android:layout_marginTop="@dimen/grid_0_5"
                     android:background="@drawable/divider"
                     app:backgroundTint="@color/color_on_surface_divider" />
 
                 <Spinner
-                    android:id="@+id/vendor_spinner"
+                    android:id="@+id/task_vendor_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@id/vendor_add_icon"
@@ -138,8 +138,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/vendor_spinner"
-                    app:layout_constraintBottom_toBottomOf="@id/vendor_spinner"
+                    app:layout_constraintTop_toTopOf="@id/task_vendor_spinner"
+                    app:layout_constraintBottom_toBottomOf="@id/task_vendor_spinner"
                     android:layout_marginEnd="@dimen/grid_1"
                     android:padding="@dimen/min_icon_target_padding"
                     android:contentDescription="@string/compose_add_vendor_icon_content_desc"
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vendor_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/task_vendor_spinner"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/grid_1"
                     android:layout_marginHorizontal="@dimen/grid_2"
@@ -233,7 +233,7 @@
                     app:backgroundTint="@color/color_on_surface_divider"/>
 
                 <EditText
-                    android:id="@+id/body_text_view"
+                    android:id="@+id/task_body_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="250dp"

@@ -35,7 +35,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.from
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.aztechz.probeez.R
 import com.aztechz.probeez.data.Account
-import com.aztechz.probeez.data.AccountStore
 import com.aztechz.probeez.databinding.FragmentBottomNavDrawerBinding
 import com.aztechz.probeez.util.lerp
 import com.aztechz.probeez.util.themeColor
@@ -228,12 +227,6 @@ class BottomNavDrawerFragment :
             }
             NavigationModel.setNavigationMenuItemChecked(0)
 
-            val accountAdapter = AccountAdapter(this@BottomNavDrawerFragment)
-            accountRecyclerView.adapter = accountAdapter
-            AccountStore.userAccounts.observe(viewLifecycleOwner) {
-                accountAdapter.submitList(it)
-                currentUserAccount = it.first { acc -> acc.isCurrentAccount }
-            }
         }
     }
 
@@ -287,7 +280,7 @@ class BottomNavDrawerFragment :
     }
 
     override fun onAccountClicked(account: Account) {
-        AccountStore.setCurrentUserAccount(account.id)
+        //Take to the account obtained
         toggleSandwich()
     }
 
@@ -336,16 +329,9 @@ class BottomNavDrawerFragment :
             profileImageView.scaleY = 1F - navProgress
             profileImageView.alpha = 1F - navProgress
             foregroundContainer.alpha = 1F - navProgress
-            accountRecyclerView.alpha = accProgress
 
             foregroundShapeDrawable.interpolation = 1F - navProgress
 
-            // Animate the translationY of the backgroundContainer so just the account picker is
-            // peeked above the BottomAppBar.
-            backgroundContainer.translationY = progress *
-                ((scrimView.bottom - accountRecyclerView.height
-                    - resources.getDimension(R.dimen.bottom_app_bar_height)) -
-                    (backgroundContainer.getTag(R.id.tag_view_top_snapshot) as Int))
         }
 
         // Call any actions which have been registered to run on progress changes.

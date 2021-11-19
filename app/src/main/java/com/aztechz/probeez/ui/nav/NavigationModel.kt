@@ -31,7 +31,6 @@ object NavigationModel {
     const val PROFILE_ID = 1
     const val TASKS_ID = 2
     const val REPORTS_ID = 3
-    const val SETTINGS_ID = 4
 
     private var navigationMenuItems = mutableListOf(
         NavigationModelItem.NavMenuItem(
@@ -61,13 +60,6 @@ object NavigationModel {
             titleRes = R.string.navigation_reports,
             checked = false,
             mailbox = Mailbox.REPORTS
-        ),
-        NavigationModelItem.NavMenuItem(
-            id = SETTINGS_ID,
-            icon = R.drawable.ic_twotone_error,
-            titleRes = R.string.navigation_settings,
-            checked = false,
-            mailbox = Mailbox.SETTINGS
         )
     )
 

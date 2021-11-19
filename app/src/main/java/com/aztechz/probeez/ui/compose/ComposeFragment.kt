@@ -16,7 +16,6 @@
 
 package com.aztechz.probeez.ui.compose
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,10 +27,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aztechz.probeez.R
-import com.aztechz.probeez.data.AccountStore
 import com.aztechz.probeez.data.Task
 import com.aztechz.probeez.data.TaskStore
+import com.aztechz.probeez.data.Tasks
 import com.aztechz.probeez.databinding.FragmentComposeBinding
+import com.aztechz.probeez.util.DataProcessor
+import com.aztechz.probeez.util.SpinnerAdapters
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.google.android.material.snackbar.Snackbar
@@ -89,14 +90,16 @@ class ComposeFragment : Fragment() {
 
             //composeTask.nonUserAccountVendors.forEach { addVendorChip(it) }
 
-            typeSpinner.adapter = ArrayAdapter(
-                vendorSpinner.context,
+            val adapters = SpinnerAdapters(requireContext())
+
+            taskTypeSpinner.adapter = ArrayAdapter(
+                taskVendorSpinner.context,
                 R.layout.spinner_item_layout,
                 taskTypes
             )
-            typeSpinner.setSelection(0)
+            taskTypeSpinner.setSelection(0)
 
-            typeSpinner.onItemSelectedListener =
+            taskTypeSpinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
                         adapterView: AdapterView<*>?,
@@ -105,15 +108,15 @@ class ComposeFragment : Fragment() {
                         l: Long
                     ) {
                         //Logic here
-                        tasktype = typeSpinner.getItemAtPosition(i).toString()
+                        tasktype = taskTypeSpinner.getItemAtPosition(i).toString()
                         if(i == 1){
-                            vendorSpinner.visibility = View.VISIBLE
+                            taskVendorSpinner.visibility = View.VISIBLE
                             vendorAddIcon.visibility = View.VISIBLE
                             vendorDivider.visibility = View.VISIBLE
                             taskAmount.visibility = View.VISIBLE
                             amountDivider.visibility = View.VISIBLE
                         }else{
-                            vendorSpinner.visibility = View.GONE
+                            taskVendorSpinner.visibility = View.GONE
                             vendorAddIcon.visibility = View.GONE
                             vendorDivider.visibility = View.GONE
                             taskAmount.visibility = View.GONE
@@ -206,14 +209,29 @@ class ComposeFragment : Fragment() {
 
 
 
-            vendorSpinner.adapter = ArrayAdapter(
-                vendorSpinner.context,
-                R.layout.spinner_item_layout,
-                AccountStore.getAllUserAccounts().map { "${it.firstName} ${it.lastName}" }
-            )
+            taskVendorSpinner.adapter = adapters.vendorAdapter
+            taskVendorSpinner.setSelection(0)
+
+            sendIcon.setOnClickListener{
+                saveTask()
+                findNavController().navigateUp()
+            }
 
             // TODO: Set up MaterialContainerTransform enterTransition and Slide returnTransition.
         }
+    }
+
+    private fun saveTask() {
+        val tasks = Tasks(
+            title = binding.taskTitleText.toString(),
+            type = binding.taskTypeSpinner.selectedItem.toString(),
+            vendor = binding.taskVendorSpinner.selectedItem.toString(),
+            date = binding.taskDateSelector.text.toString(),
+            time = binding.taskTimeSelector.text.toString(),
+            amount = binding.taskAmount.toString(),
+            details = binding.taskBodyTextView.toString()
+        )
+        DataProcessor(requireContext()).setObject("task", tasks)
     }
 
 

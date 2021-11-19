@@ -45,15 +45,7 @@ class HomeFragment : Fragment(), TaskAdapter.TaskAdapterListener {
 
     private val emailAdapter = TaskAdapter(this)
 
-    // An on back pressed callback that handles replacing any non-Inbox HomeFragment with inbox
-    // on back pressed.
-    private val nonInboxOnBackCallback = object : OnBackPressedCallback(false) {
-        override fun handleOnBackPressed() {
-            NavigationModel.setNavigationMenuItemChecked(NavigationModel.HOME_ID)
-            (requireActivity() as MainActivity)
-                .navigateToHome(R.string.navigation_home, Mailbox.HOME);
-        }
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +57,7 @@ class HomeFragment : Fragment(), TaskAdapter.TaskAdapterListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -74,13 +66,6 @@ class HomeFragment : Fragment(), TaskAdapter.TaskAdapterListener {
         super.onViewCreated(view, savedInstanceState)
         // TODO: Set up postponed enter transition.
 
-        // Only enable the on back callback if this home fragment is a mailbox other than Inbox.
-        // This is to make sure we always navigate back to Inbox before exiting the app.
-        nonInboxOnBackCallback.isEnabled = args.mailbox != Mailbox.HOME
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            nonInboxOnBackCallback
-        )
 
         binding.recyclerView.apply {
             val itemTouchHelper = ItemTouchHelper(ReboundingSwipeActionCallback())
@@ -96,8 +81,8 @@ class HomeFragment : Fragment(), TaskAdapter.TaskAdapterListener {
 
     override fun onTaskClicked(cardView: View, task: Task) {
         // TODO: Set up MaterialElevationScale transition as exit and reenter transitions.
-        val directions = HomeFragmentDirections.actionHomeFragmentToTaskFragment(task.id)
-        findNavController().navigate(directions)
+       /* val directions = HomeFragmentDirections.actionHomeFragmentToTaskFragment(task.id)
+        findNavController().navigate(directions)*/
     }
 
     override fun onTaskLongPressed(task: Task): Boolean {

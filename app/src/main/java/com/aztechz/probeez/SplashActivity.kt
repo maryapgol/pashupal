@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import com.aztechz.probeez.databinding.ActivitySplashBinding
 import com.aztechz.probeez.util.contentView
 import com.aztechz.probeez.ui.login_signup.LoginActivity
+import com.aztechz.probeez.util.DataProcessor
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -38,8 +39,14 @@ class SplashActivity : AppCompatActivity() {
             // start the new activity
             startActivity(intent, options.toBundle())
 
-            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-            finish()
+            val dt = DataProcessor(applicationContext)
+            if(dt.sharedPreferenceExist("cred")){
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                finish()
+            }else {
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                finish()
+            }
         }, SPLASH_DELAY)
     }
 }
