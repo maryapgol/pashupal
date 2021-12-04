@@ -28,4 +28,8 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="TranslucentDialog" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackground">@color/transparent_black</item>
+    </style>
+
 </resources>

@@ -3,11 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.login_signup.LoginActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 
     <ImageView
         android:id="@+id/logo_image"
@@ -25,7 +28,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signinTaskPhoneTextInp"
+        android:id="@+id/signinTaskEmailTextInp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +56,7 @@
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signinTaskPhoneTextInp"
+        app:layout_constraintTop_toBottomOf="@+id/signinTaskEmailTextInp"
         app:startIconDrawable="@drawable/ic_vpn_key">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -149,5 +152,5 @@
         app:layout_constraintVertical_bias="0.928" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
+</androidx.core.widget.NestedScrollView>
 </layout>
