@@ -36,22 +36,25 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel?.login?.observe(this, Observer {
 
-            when(it)
-            {
+            when (it) {
                 is DataState.Success<LoginResponseDataModel> -> {
                     CustomProgress.hideProgress()
 
-                    Log.i(TAG," Succcess: "+ it.data)
-                    if(it.data.statusCode == "001")
-                    {
+                    Log.i(TAG, " Succcess: " + it.data)
+                    if (it.data.statusCode == "001") {
                         val dt = DataProcessor(applicationContext)
-                        dt.setStr("email",it.data.data?.email)
+                        dt.setStr("email", it.data.data?.email)
                         dt.setStr("phone", it.data.data?.phone)
-                        dt.setStr("user_id",it.data.data?.userId)
-                        dt.setStr("cred",it.data.data?.userId)
+                        dt.setStr("user_id", it.data.data?.userId)
+                        dt.setStr("cred", it.data.data?.userId)
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    }else{
-                        Snackbar.make(binding.root, it.data?.message.toString(), Snackbar.LENGTH_SHORT)
+                        finish()
+                    } else {
+                        Snackbar.make(
+                            binding.root,
+                            it.data?.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        )
                             .show()
                     }
                 }
@@ -59,14 +62,14 @@ class LoginActivity : AppCompatActivity() {
                 is DataState.Error -> {
                     CustomProgress.hideProgress()
 
-                    Log.i(TAG," Error: "+it.exception.printStackTrace())
+                    Log.i(TAG, " Error: " + it.exception.printStackTrace())
 
                 }
 
                 is DataState.Loading -> {
-                    CustomProgress.showProgress(this@LoginActivity,"",false)
+                    CustomProgress.showProgress(this@LoginActivity, false)
 
-                    Log.i(TAG," Loading: ")
+                    Log.i(TAG, " Loading: ")
 
                 }
             }
@@ -75,16 +78,33 @@ class LoginActivity : AppCompatActivity() {
 
         binding.apply {
             btnLogin.setOnClickListener {
+                if (validateLogin() == null) {
+                    val loginRequestModel = LoginRequestModel(
+                        binding.signinTaskEmailTextInp.editText.toString(),
+                        binding.signinPassword.editText.toString()
+                    )
+                    loginViewModel?.login(loginRequestModel)
+                } else {
+                    Snackbar.make(binding.root, "Error: ${validateLogin()}", Snackbar.LENGTH_SHORT)
+                        .show()
 
-                val loginRequestModel = LoginRequestModel(binding.signinTaskEmailTextInp.editText.toString(),binding.signinPassword.editText.toString())
-                loginViewModel?.login(loginRequestModel)
-
-
+                }
             }
 
             signUptextView.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
             }
+        }
+    }
+
+    private fun validateLogin(): String? {
+        return when {
+            binding.signinTaskEmailTextInp.editText?.text.toString()
+                .isBlank() -> "Please enter either email id or phone number"
+            //isValidEmail(binding.signupTaskEmailInp.editText?.text.toString()) -> "Please enter valid email"
+            //binding.signupTaskPhoneInp.editText?.text.toString().length != 10 -> "Please enter valid number "
+            binding.signinPassword.editText?.text.toString().isEmpty() -> "Please enter password"
+            else -> null
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.aztechz.probeez.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +17,7 @@ class SignUpViewModel @ViewModelInject constructor(private val signUpRepository:
 
     private val _signUp: MutableLiveData<DataState<SignUpResponseModel>> = MutableLiveData<DataState<SignUpResponseModel>>()
 
-    val signUp: MutableLiveData<DataState<SignUpResponseModel>> get() = _signUp
+    val signUp: LiveData<DataState<SignUpResponseModel>> get() = _signUp
 
     fun signUp(signUpRequest: SignUpRequest)
     {

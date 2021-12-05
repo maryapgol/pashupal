@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.animation.AnimationUtils
 import com.aztechz.probeez.databinding.ActivitySplashBinding
 import com.aztechz.probeez.util.contentView
@@ -31,20 +32,25 @@ class SplashActivity : AppCompatActivity() {
         binding.logoImage.startAnimation(animZoomIn)
         /* Add Delay to show Login/Home Screen after Splash Screen*/
         Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-            // create the transition animation - the images in the layouts
-            // of both activities are defined with android:transitionName="robot"
-            val options = ActivityOptions
-                .makeSceneTransitionAnimation(this, binding.logoImage, "logo")
-            // start the new activity
-            startActivity(intent, options.toBundle())
+            Log.i("Splash","Delaying ---- ")
+
 
             val dt = DataProcessor(applicationContext)
+            print("CRED exist: "+dt.sharedPreferenceExist("cred"))
+            Log.i("Splash","CRED exist: "+dt.sharedPreferenceExist("cred"))
+
             if(dt.sharedPreferenceExist("cred")){
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 finish()
             }else {
-                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                // create the transition animation - the images in the layouts
+                // of both activities are defined with android:transitionName="robot"
+                val options = ActivityOptions
+                    .makeSceneTransitionAnimation(this, binding.logoImage, "logo")
+                // start the new activity
+                startActivity(intent, options.toBundle())
+               // startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 finish()
             }
         }, SPLASH_DELAY)

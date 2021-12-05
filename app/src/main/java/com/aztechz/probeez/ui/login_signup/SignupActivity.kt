@@ -48,7 +48,7 @@ class SignupActivity : AppCompatActivity() {
                 is DataState.Success<SignUpResponseModel> -> {
                     CustomProgress.hideProgress()
 
-                    Log.i(TAG," Succcess: "+ it.data)
+                    Log.i(TAG," Success: "+ it.data)
                     if(it.data.statusCode == "001")
                     {
                         println("logging: "+it)
@@ -59,7 +59,7 @@ class SignupActivity : AppCompatActivity() {
                         dt.setStr("user_id",it.data.data?.userId)
                         dt.setStr("cred",it.data.data?.userId)
                         startActivity(Intent(this@SignupActivity, ProfileActivity::class.java))
-
+                        finish()
                     }else{
                         Snackbar.make(binding.root, it.data?.message.toString(), Snackbar.LENGTH_SHORT)
                             .show()
@@ -74,7 +74,7 @@ class SignupActivity : AppCompatActivity() {
                 }
 
                 is DataState.Loading -> {
-                    CustomProgress.showProgress(this@SignupActivity,"",false)
+                    CustomProgress.showProgress(this@SignupActivity,false)
                     Log.i(TAG," Loading: ")
 
                 }

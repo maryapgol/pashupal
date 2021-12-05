@@ -19,7 +19,7 @@ object CustomProgress {
         return customProgress;
     }*/
 
-    fun showProgress(context: Context,  message: String,  cancelable: Boolean) {
+    fun showProgress(context: Context,  cancelable: Boolean) {
         mDialog =  Dialog(context, R.style.TranslucentDialog)
         // no tile for the dialog
         mDialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)

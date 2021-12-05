@@ -17,13 +17,17 @@
 package com.aztechz.probeez.ui.compose
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aztechz.probeez.R
@@ -31,22 +35,34 @@ import com.aztechz.probeez.data.Task
 import com.aztechz.probeez.data.TaskStore
 import com.aztechz.probeez.data.Tasks
 import com.aztechz.probeez.databinding.FragmentComposeBinding
+import com.aztechz.probeez.model.task.TaskRequestModel
+import com.aztechz.probeez.model.task.TaskResponseModel
 import com.aztechz.probeez.util.DataProcessor
 import com.aztechz.probeez.util.SpinnerAdapters
+import com.aztechz.probeez.utils.CustomProgress
+import com.aztechz.probeez.utils.DataState
+import com.aztechz.probeez.viewmodel.TaskViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.LazyThreadSafetyMode.NONE
 
 /**
  * A [Fragment] which allows for the composition of a new email.
  */
+
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class ComposeFragment : Fragment() {
 
     private lateinit var binding: FragmentComposeBinding
+    private val taskViewModel: TaskViewModel by viewModels()
 
     private val args: ComposeFragmentArgs by navArgs()
 
@@ -58,16 +74,16 @@ class ComposeFragment : Fragment() {
         if (id == -1L) TaskStore.create() else TaskStore.createReplyTo(id)
     }
 
-    private val taskTypes = arrayOf("Personal","Professional")
+    private val taskTypes = arrayOf("Personal", "Professional")
     private var tasktype = ""
 
-   /* // Handle closing an expanded vendor card when on back is pressed.
-    private val closeVendorCardOnBackPressed = object : OnBackPressedCallback(false) {
-        var expandedChip: View? = null
-        override fun handleOnBackPressed() {
-            expandedChip?.let { collapseChip(it) }
-        }
-    }*/
+    /* // Handle closing an expanded vendor card when on back is pressed.
+     private val closeVendorCardOnBackPressed = object : OnBackPressedCallback(false) {
+         var expandedChip: View? = null
+         override fun handleOnBackPressed() {
+             expandedChip?.let { collapseChip(it) }
+         }
+     }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +100,51 @@ class ComposeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+
+        taskViewModel.task.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+
+            when (it) {
+                is DataState.Success<TaskResponseModel> -> {
+                    CustomProgress.hideProgress()
+                    Log.i("ComposeFragment", " " + it.data)
+                    if (it.data.statusCode == "001") {
+                        Snackbar.make(
+                            binding.root,
+                            it.data?.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    } else {
+                        Snackbar.make(
+                            binding.root,
+                            it.data?.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
+
+                is DataState.Loading -> {
+                    CustomProgress.showProgress(activity as Context, false)
+
+                }
+
+                is DataState.Error -> {
+                    CustomProgress.hideProgress()
+
+                    Snackbar.make(
+                        binding.root,
+                        it.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                }
+
+            }
+
+        })
+
         binding.run {
             closeIcon.setOnClickListener { findNavController().navigateUp() }
             email = composeTask
@@ -109,13 +170,13 @@ class ComposeFragment : Fragment() {
                     ) {
                         //Logic here
                         tasktype = taskTypeSpinner.getItemAtPosition(i).toString()
-                        if(i == 1){
+                        if (i == 1) {
                             taskVendorSpinner.visibility = View.VISIBLE
                             vendorAddIcon.visibility = View.VISIBLE
                             vendorDivider.visibility = View.VISIBLE
                             taskAmount.visibility = View.VISIBLE
                             amountDivider.visibility = View.VISIBLE
-                        }else{
+                        } else {
                             taskVendorSpinner.visibility = View.GONE
                             vendorAddIcon.visibility = View.GONE
                             vendorDivider.visibility = View.GONE
@@ -140,6 +201,8 @@ class ComposeFragment : Fragment() {
             }
 
             datePicker.addOnPositiveButtonClickListener {
+
+                Log.i("ComposeFragment", "data set: " + datePicker.headerText)
                 taskDateSelector.text = datePicker.headerText
             }
 
@@ -212,26 +275,48 @@ class ComposeFragment : Fragment() {
             taskVendorSpinner.adapter = adapters.vendorAdapter
             taskVendorSpinner.setSelection(0)
 
-            sendIcon.setOnClickListener{
+            sendIcon.setOnClickListener {
                 saveTask()
-                findNavController().navigateUp()
+                // findNavController().navigateUp()
             }
 
             // TODO: Set up MaterialContainerTransform enterTransition and Slide returnTransition.
         }
     }
 
+    private fun getFormattedDate(inputValue: String): String {
+        val inputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val date = inputFormat.parse(inputValue)
+        return outputFormat.format(date)
+    }
+
     private fun saveTask() {
-        val tasks = Tasks(
-            title = binding.taskTitleText.toString(),
-            type = binding.taskTypeSpinner.selectedItem.toString(),
-            vendor = binding.taskVendorSpinner.selectedItem.toString(),
-            date = binding.taskDateSelector.text.toString(),
-            time = binding.taskTimeSelector.text.toString(),
-            amount = binding.taskAmount.toString(),
-            details = binding.taskBodyTextView.toString()
+//binding.taskTimeSelector.text.toString() ass this wen fixed time format
+        val dataProcessor = DataProcessor(activity as Context)
+        val tasks = TaskRequestModel(
+            binding.taskBodyTextView.text.toString(),
+            getFormattedDate(binding.taskDateSelector.text.toString()),
+            "",
+            binding.taskTitleText.text.toString(),
+            binding.taskTypeSpinner.selectedItem.toString(),
+            dataProcessor.getStr("user_id").toString(),
+            ""
         )
-        DataProcessor(requireContext()).setObject("task", tasks)
+        Log.i("ComposeFragment", "Request: " + tasks)
+        taskViewModel.addTask(tasks)
+        /*  val tasks = Tasks(
+              title = binding.taskTitleText.toString(),
+              type = binding.taskTypeSpinner.selectedItem.toString(),
+              vendor = binding.taskVendorSpinner.selectedItem.toString(),
+              date = binding.taskDateSelector.text.toString(),
+              time = binding.taskTimeSelector.text.toString(),
+              amount = binding.taskAmount.toString(),
+              details = binding.taskBodyTextView.toString()
+          )*/
+
+
+        // DataProcessor(requireContext()).setObject("task", tasks)
     }
 
 

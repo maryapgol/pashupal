@@ -2,6 +2,7 @@ package com.aztechz.probeez.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -9,82 +10,57 @@ import java.lang.reflect.Type
 
 class DataProcessor(private var context: Context) {
 
+    private var preferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE)
+
     fun sharedPreferenceExist(key: String?): Boolean {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        return prefs.contains(key)
+
+        return preferences.contains(key)
     }
 
     fun clearSharedPreferences() {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        prefs?.edit()?.clear()?.apply()
+
+        preferences?.edit()?.clear()?.apply()
     }
 
     fun setInt(key: String?, value: Int) {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        val editor = prefs?.edit()
+
+        val editor = preferences?.edit()
         editor?.putInt(key, value)
         editor?.apply()
     }
 
     fun getInt(key: String?): Int? {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        return prefs?.getInt(key, 0)
+
+        return preferences?.getInt(key, 0)
     }
 
     fun setStr(key: String?, value: String?) {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        val editor = prefs?.edit()
+       Log.i("DataProcessor","Value: "+value)
+        val editor = preferences.edit()
         editor?.putString(key, value)
         editor?.apply()
     }
 
     fun getStr(key: String?): String? {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        return prefs.getString(key, "DNF")
+
+        return preferences.getString(key, "DNF")
     }
 
     fun setBool(key: String?, value: Boolean) {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        val editor = prefs.edit()
+
+        val editor = preferences.edit()
         editor.putBoolean(key, value)
         editor.apply()
     }
 
     fun getBool(key: String?): Boolean {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        return prefs.getBoolean(key, false)
+
+        return preferences.getBoolean(key, false)
     }
 
     fun setObject(serializedObjectKey: String?, `object`: Any?) {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        val sharedPreferencesEditor = prefs.edit()
+
+        val sharedPreferencesEditor = preferences.edit()
         val gson = Gson()
         val serializedObject = gson.toJson(`object`)
         sharedPreferencesEditor.putString(serializedObjectKey, serializedObject)
@@ -92,16 +68,13 @@ class DataProcessor(private var context: Context) {
     }
 
     fun <GenericClass> getObject(
-        preferenceKey: String?,
+        key: String?,
         classType: Class<GenericClass>?
     ): GenericClass? {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
-        if (prefs.contains(preferenceKey)) {
+
+        if (preferences.contains(key)) {
             val gson = Gson()
-            return gson.fromJson(prefs.getString(preferenceKey, ""), classType)
+            return gson.fromJson(preferences.getString(key, ""), classType)
         }
         return null
     }
@@ -121,12 +94,9 @@ class DataProcessor(private var context: Context) {
     }
 
     fun <GenericClass> getArrayList(key: String?,classType: Class<GenericClass>?): GenericClass {
-        val prefs = context.getSharedPreferences(
-            PREFS_NAME,
-            0
-        )
+
         val gson = Gson()
-        val json: String? = prefs.getString(key, null)
+        val json: String? = preferences.getString(key, null)
         val type: Type = object : TypeToken<ArrayList<GenericClass>?>() {}.type
         return gson.fromJson(json, type)
 
