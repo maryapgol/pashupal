@@ -16,6 +16,7 @@
 
 package com.aztechz.probeez
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -25,6 +26,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.aztechz.probeez.databinding.ActivityMainBinding
+import com.aztechz.probeez.ui.task.TaskActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.homeFragment,
                 R.id.tasksFragment,
-                R.id.searchFragment,
                 R.id.reportsFragment,
                 R.id.settingsFragment
             )
@@ -67,7 +68,8 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
         binding.fab.setOnClickListener {
-            navController.navigate(R.id.composeFragment)
+            startActivity(Intent(this@MainActivity,TaskActivity::class.java))
+            //navController.navigate(R.id.composeFragment)
         }
 
     }
