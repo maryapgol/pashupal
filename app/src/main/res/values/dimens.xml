@@ -29,4 +29,7 @@
     <dimen name="small_component_top_left_radius">28dp</dimen>
     <dimen name="card_elevation">1dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="btn_text_size">@dimen/_12ssp</dimen>
+    <dimen name="edt_text_size">@dimen/_12ssp</dimen>
+
 </resources>

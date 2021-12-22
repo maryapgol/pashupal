@@ -7,6 +7,8 @@ import com.aztechz.probeez.model.login.LoginResponseDataModel
 import com.aztechz.probeez.model.signup.SignUpRequest
 import com.aztechz.probeez.model.task.TaskRequestModel
 import com.aztechz.probeez.model.task.TaskResponseModel
+import com.aztechz.probeez.model.vendor.AddVendorResponseModel
+import com.aztechz.probeez.repository.vendor.AddVendorRequestModel
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -20,5 +22,8 @@ interface RetrofitClient {
 
     @POST("task/save")
     suspend fun addTask(@Body taskRequestModel: TaskRequestModel): TaskResponseModel
+
+    @POST("vendor/add")
+    suspend fun addVendor(@Body addVendorRequestModel: AddVendorRequestModel): AddVendorResponseModel
 
 }

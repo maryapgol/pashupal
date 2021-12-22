@@ -1,25 +1,29 @@
 package com.aztechz.probeez.ui.task
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.ActivityTaskBinding
 import com.aztechz.probeez.model.task.TaskRequestModel
 import com.aztechz.probeez.model.task.TaskResponseModel
+import com.aztechz.probeez.model.vendor.AddVendorResponseModel
+import com.aztechz.probeez.repository.vendor.AddVendorRequestModel
 import com.aztechz.probeez.util.DataProcessor
 import com.aztechz.probeez.util.SpinnerAdapters
 import com.aztechz.probeez.utils.CustomProgress
 import com.aztechz.probeez.utils.DataState
 import com.aztechz.probeez.viewmodel.TaskViewModel
+import com.aztechz.probeez.viewmodel.VendorViewModel
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -30,12 +34,14 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class TaskActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTaskBinding
     private val taskViewModel: TaskViewModel by viewModels()
+    private val vendorViewModel: VendorViewModel by viewModels()
     private val taskTypes = arrayOf("Personal", "Professional")
     private var tasktype = ""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +54,49 @@ class TaskActivity : AppCompatActivity() {
 
             when (it) {
                 is DataState.Success<TaskResponseModel> -> {
+                    CustomProgress.hideProgress()
+                    Log.i("ComposeFragment", " " + it.data)
+                    if (it.data.statusCode == "001") {
+                        Snackbar.make(
+                            binding.root,
+                            it.data.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    } else {
+                        Snackbar.make(
+                            binding.root,
+                            it.data.message.toString(),
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
+
+                is DataState.Loading -> {
+                    CustomProgress.showProgress(this@TaskActivity, false)
+
+                }
+
+                is DataState.Error -> {
+                    CustomProgress.hideProgress()
+
+                    Snackbar.make(
+                        binding.root,
+                        it.exception.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                }
+
+            }
+
+        })
+
+        vendorViewModel.vendor.observe(this@TaskActivity, androidx.lifecycle.Observer {
+
+            when (it) {
+                is DataState.Success<AddVendorResponseModel> -> {
                     CustomProgress.hideProgress()
                     Log.i("ComposeFragment", " " + it.data)
                     if (it.data.statusCode == "001") {
@@ -140,7 +189,7 @@ class TaskActivity : AppCompatActivity() {
 
             taskDateSelector.setOnClickListener {
 
-                datePicker.show(supportFragmentManager,"SELECT DATE")
+                datePicker.show(supportFragmentManager, "SELECT DATE")
             }
 
             datePicker.addOnPositiveButtonClickListener {
@@ -148,6 +197,7 @@ class TaskActivity : AppCompatActivity() {
                 Log.i("ComposeFragment", "data set: " + datePicker.headerText)
                 taskDateSelector.text = datePicker.headerText
             }
+
 
 
             taskTimeSelector.setOnClickListener {
@@ -166,7 +216,7 @@ class TaskActivity : AppCompatActivity() {
                     .setTimeFormat(TimeFormat.CLOCK_12H)
                     .build()
 
-                materialTimePicker.show(supportFragmentManager,"SELECT TIME")
+                materialTimePicker.show(supportFragmentManager, "SELECT TIME")
 
                 // on clicking the positive button of the time picker
                 // dialog update the TextView accordingly
@@ -213,8 +263,36 @@ class TaskActivity : AppCompatActivity() {
                 }
             }
 
+            vendorAddIcon.setOnClickListener {
+                val builder: android.app.AlertDialog.Builder =
+                    android.app.AlertDialog.Builder(this@TaskActivity)
+                val viewGroup = findViewById<ViewGroup>(android.R.id.content)
+                val dialogView: View = LayoutInflater.from(it.context)
+                    .inflate(R.layout.custom_dialog_add_vendor, viewGroup, false)
+                val btnAddVendor = dialogView.findViewById<MaterialButton>(R.id.btnAddVendor)
+                val edtEnterVendor = dialogView.findViewById<EditText>(R.id.edtVendorName)
+                btnAddVendor.setOnClickListener {
+                    if(!edtEnterVendor.text.toString().isNullOrEmpty())
+                    {
+                        val addVendorRequestModel = AddVendorRequestModel(edtEnterVendor.text.toString(),DataProcessor(this@TaskActivity).getStr("user_id"))
+                        vendorViewModel.addVendor(addVendorRequestModel)
+                    }else{
+                        Snackbar.make(
+                            binding.root,
+                            resources.getString(R.string.plz_enter_vendor_name),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
 
+                }
+                builder.setView(dialogView)
+                val alertDialog: android.app.AlertDialog? = builder.create()
+                alertDialog?.show()
+            }
+         /*   vendor_add_icon.setOnClickListener {
 
+            }
+            */
             taskVendorSpinner.adapter = adapters.vendorAdapter
             taskVendorSpinner.setSelection(0)
 
@@ -225,6 +303,7 @@ class TaskActivity : AppCompatActivity() {
 
             // TODO: Set up MaterialContainerTransform enterTransition and Slide returnTransition.
         }
+
     }
 
     private fun getFormattedDate(inputValue: String): String {
@@ -237,7 +316,11 @@ class TaskActivity : AppCompatActivity() {
 
         }catch (e: ParseException)
         {
-            Snackbar.make(binding.root, resources.getString(R.string.select_date_time), Snackbar.LENGTH_SHORT)
+            Snackbar.make(
+                binding.root,
+                resources.getString(R.string.select_date_time),
+                Snackbar.LENGTH_SHORT
+            )
                 .show()
         }
 
@@ -250,7 +333,11 @@ class TaskActivity : AppCompatActivity() {
         val dataProcessor = DataProcessor(this@TaskActivity)
         if(getFormattedDate(binding.taskDateSelector.text.toString()).isNullOrEmpty())
         {
-            Snackbar.make(binding.root, resources.getString(R.string.enter_valid_date_time), Snackbar.LENGTH_SHORT)
+            Snackbar.make(
+                binding.root,
+                resources.getString(R.string.enter_valid_date_time),
+                Snackbar.LENGTH_SHORT
+            )
                 .show()
             return
         }

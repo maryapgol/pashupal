@@ -7,29 +7,30 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aztechz.probeez.model.task.TaskRequestModel
 import com.aztechz.probeez.model.task.TaskResponseModel
-import com.aztechz.probeez.repository.signup.SignUpRepository
+import com.aztechz.probeez.model.vendor.AddVendorResponseModel
 import com.aztechz.probeez.repository.task.TaskRepository
 import com.aztechz.probeez.repository.vendor.AddVendorRequestModel
+import com.aztechz.probeez.repository.vendor.VendorRepository
 import com.aztechz.probeez.utils.DataState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class TaskViewModel @ViewModelInject constructor(private val taskRepository: TaskRepository): ViewModel() {
+class VendorViewModel @ViewModelInject constructor(private val vendorRepository: VendorRepository): ViewModel() {
 
-    private val _task: MutableLiveData<DataState<TaskResponseModel>> = MutableLiveData()
+    private val _vendor: MutableLiveData<DataState<AddVendorResponseModel>> = MutableLiveData()
 
-    val task: LiveData<DataState<TaskResponseModel>> get() = _task
+    val vendor: LiveData<DataState<AddVendorResponseModel>> get() = _vendor
 
-    fun addTask(taskRequestModel: TaskRequestModel)
+
+    fun addVendor(addVendorRequestModel: AddVendorRequestModel)
     {
         viewModelScope.launch {
-           val taskResponseModel = taskRepository.addTask(taskRequestModel)
-            taskResponseModel.onEach {
-                _task.value = it
+            val vendorResponseModel = vendorRepository.addVendor(addVendorRequestModel)
+            vendorResponseModel.onEach {
+                _vendor.value = it
             }.launchIn(viewModelScope)
         }
     }
-
 
 }

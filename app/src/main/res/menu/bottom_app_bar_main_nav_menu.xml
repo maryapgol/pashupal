@@ -17,12 +17,12 @@
         android:orderInCategory="2"
         android:title="@string/navigation_tasks"/>
 
-    <item
+    <!--<item
         android:id="@+id/searchFragment"
         android:icon="@drawable/ic_twotone_stars"
         app:showAsAction="always"
         android:orderInCategory="2"
-        android:title="@string/navigation_search"/>
+        android:title="@string/navigation_search"/>-->
 
     <item
         android:id="@+id/reportsFragment"

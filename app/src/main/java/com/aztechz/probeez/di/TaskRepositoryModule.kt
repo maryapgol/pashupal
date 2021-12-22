@@ -1,6 +1,7 @@
 package com.aztechz.probeez.di
 
 import com.aztechz.probeez.repository.task.TaskRepository
+import com.aztechz.probeez.repository.vendor.VendorRepository
 import com.aztechz.probeez.retrofit.RetrofitClient
 import dagger.Module
 import dagger.Provides
@@ -18,5 +19,11 @@ object TaskRepositoryModule {
     @Singleton
     fun provideTaskRepository(restClient: RetrofitClient) : TaskRepository {
          return TaskRepository(restClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideVendorRepository(restClient: RetrofitClient) : VendorRepository {
+        return VendorRepository(restClient)
     }
 }
