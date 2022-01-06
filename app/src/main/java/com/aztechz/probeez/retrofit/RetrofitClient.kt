@@ -5,12 +5,12 @@ import com.aztechz.probeez.model.SignUpResponseModel
 import com.aztechz.probeez.model.login.LoginRequestModel
 import com.aztechz.probeez.model.login.LoginResponseDataModel
 import com.aztechz.probeez.model.signup.SignUpRequest
+import com.aztechz.probeez.model.task.TaskListResponseModel
 import com.aztechz.probeez.model.task.TaskRequestModel
 import com.aztechz.probeez.model.task.TaskResponseModel
 import com.aztechz.probeez.model.vendor.AddVendorResponseModel
 import com.aztechz.probeez.repository.vendor.AddVendorRequestModel
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface RetrofitClient {
 
@@ -25,5 +25,8 @@ interface RetrofitClient {
 
     @POST("vendor/add")
     suspend fun addVendor(@Body addVendorRequestModel: AddVendorRequestModel): AddVendorResponseModel
+
+    @GET()
+    suspend fun getTaskList(@Url url: String): TaskListResponseModel
 
 }

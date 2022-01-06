@@ -44,6 +44,9 @@ class TaskActivity : AppCompatActivity() {
     private val vendorViewModel: VendorViewModel by viewModels()
     private val taskTypes = arrayOf("Personal", "Professional")
     private var tasktype = ""
+    private lateinit var alertDialog: android.app.AlertDialog
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskBinding.inflate(layoutInflater)
@@ -94,8 +97,12 @@ class TaskActivity : AppCompatActivity() {
         })
 
         vendorViewModel.vendor.observe(this@TaskActivity, androidx.lifecycle.Observer {
-
+            if (alertDialog != null) {
+                alertDialog.dismiss()
+            }
             when (it) {
+
+
                 is DataState.Success<AddVendorResponseModel> -> {
                     CustomProgress.hideProgress()
                     Log.i("ComposeFragment", " " + it.data)
@@ -137,8 +144,8 @@ class TaskActivity : AppCompatActivity() {
         })
 
         binding.run {
-           /* closeIcon.setOnClickListener { findNavController().navigateUp() }
-            email = composeTask*/
+            /* closeIcon.setOnClickListener { findNavController().navigateUp() }
+             email = composeTask*/
 
             //composeTask.nonUserAccountVendors.forEach { addVendorChip(it) }
 
@@ -272,11 +279,13 @@ class TaskActivity : AppCompatActivity() {
                 val btnAddVendor = dialogView.findViewById<MaterialButton>(R.id.btnAddVendor)
                 val edtEnterVendor = dialogView.findViewById<EditText>(R.id.edtVendorName)
                 btnAddVendor.setOnClickListener {
-                    if(!edtEnterVendor.text.toString().isNullOrEmpty())
-                    {
-                        val addVendorRequestModel = AddVendorRequestModel(edtEnterVendor.text.toString(),DataProcessor(this@TaskActivity).getStr("user_id"))
+                    if (!edtEnterVendor.text.toString().isNullOrEmpty()) {
+                        val addVendorRequestModel = AddVendorRequestModel(
+                            edtEnterVendor.text.toString(),
+                            DataProcessor(this@TaskActivity).getStr("user_id")
+                        )
                         vendorViewModel.addVendor(addVendorRequestModel)
-                    }else{
+                    } else {
                         Snackbar.make(
                             binding.root,
                             resources.getString(R.string.plz_enter_vendor_name),
@@ -286,13 +295,13 @@ class TaskActivity : AppCompatActivity() {
 
                 }
                 builder.setView(dialogView)
-                val alertDialog: android.app.AlertDialog? = builder.create()
-                alertDialog?.show()
+                alertDialog = builder.create()
+                alertDialog.show()
             }
-         /*   vendor_add_icon.setOnClickListener {
+            /*   vendor_add_icon.setOnClickListener {
 
-            }
-            */
+               }
+               */
             taskVendorSpinner.adapter = adapters.vendorAdapter
             taskVendorSpinner.setSelection(0)
 
@@ -309,13 +318,12 @@ class TaskActivity : AppCompatActivity() {
     private fun getFormattedDate(inputValue: String): String {
         val inputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        var date: Date ? = null
+        var date: Date? = null
         try {
-             date = inputFormat.parse(inputValue)
+            date = inputFormat.parse(inputValue)
             return outputFormat.format(date)
 
-        }catch (e: ParseException)
-        {
+        } catch (e: ParseException) {
             Snackbar.make(
                 binding.root,
                 resources.getString(R.string.select_date_time),
@@ -331,8 +339,7 @@ class TaskActivity : AppCompatActivity() {
     private fun saveTask() {
 //binding.taskTimeSelector.text.toString() ass this wen fixed time format
         val dataProcessor = DataProcessor(this@TaskActivity)
-        if(getFormattedDate(binding.taskDateSelector.text.toString()).isNullOrEmpty())
-        {
+        if (getFormattedDate(binding.taskDateSelector.text.toString()).isNullOrEmpty()) {
             Snackbar.make(
                 binding.root,
                 resources.getString(R.string.enter_valid_date_time),
