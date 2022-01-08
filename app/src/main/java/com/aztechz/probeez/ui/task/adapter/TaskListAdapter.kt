@@ -27,7 +27,7 @@ class TaskListAdapter(private val arrListTaskListResponseModel: List<TaskListRes
         val txtDateTime = holder.itemView.findViewById<TextView>(R.id.txtDateTime)
         txtTaskName.text = task.title
         txtVendor.text = task.type
-        txtDateTime.text = getFormattedDate(task.createDate.toString())
+        txtDateTime.text = getFormattedDate(task.taskDate.toString())
     }
 
     private fun getFormattedDate(inputValue: String): String {

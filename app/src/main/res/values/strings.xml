@@ -90,5 +90,6 @@
     <string name="add_vendor">Add vendor</string>
     <string name="enter_vendor_s_name">Enter vendor\'s name</string>
     <string name="plz_enter_vendor_name">Please enter vendor name</string>
+    <string name="select_vendor">Please select a vendor</string>
 
 </resources>

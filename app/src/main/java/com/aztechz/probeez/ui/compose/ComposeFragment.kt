@@ -111,7 +111,7 @@ class ComposeFragment : Fragment() {
                     if (it.data.statusCode == "001") {
                         Snackbar.make(
                             binding.root,
-                            it.data?.message.toString(),
+                            it.data.message.toString(),
                             Snackbar.LENGTH_SHORT
                         )
                             .show()

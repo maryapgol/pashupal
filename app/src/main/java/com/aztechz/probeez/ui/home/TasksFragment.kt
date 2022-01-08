@@ -73,7 +73,6 @@ class TasksFragment : Fragment() {
                             arrListTaskListResponseModel.clear()
                             arrListTaskListResponseModel.addAll(it.data.data as Collection<TaskListResponseModel>)
                             taskListAdapter.notifyDataSetChanged()
-                            Log.i(TAG," task list"+it.data.data )
                         }
                     }
                 }

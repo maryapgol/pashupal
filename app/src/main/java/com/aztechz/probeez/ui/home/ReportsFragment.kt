@@ -26,7 +26,7 @@ class ReportsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        throw RuntimeException("Out of memory error")
+        //throw RuntimeException("Out of memory error")
     }
 
 

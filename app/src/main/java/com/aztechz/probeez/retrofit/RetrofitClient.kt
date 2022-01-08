@@ -9,6 +9,7 @@ import com.aztechz.probeez.model.task.TaskListResponseModel
 import com.aztechz.probeez.model.task.TaskRequestModel
 import com.aztechz.probeez.model.task.TaskResponseModel
 import com.aztechz.probeez.model.vendor.AddVendorResponseModel
+import com.aztechz.probeez.model.vendor.VendorListResponseModel
 import com.aztechz.probeez.repository.vendor.AddVendorRequestModel
 import retrofit2.http.*
 
@@ -28,5 +29,8 @@ interface RetrofitClient {
 
     @GET()
     suspend fun getTaskList(@Url url: String): TaskListResponseModel
+
+    @GET()
+    suspend fun getVendorList(@Url url: String): VendorListResponseModel
 
 }
