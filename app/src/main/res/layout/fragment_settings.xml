@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.home.SettingsFragment"
-   >
+    tools:context=".ui.home.SettingsFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,30 +32,32 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/userImage"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_margin="@dimen/_8sdp"
-                            android:src="@drawable/ph_gray" />
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_70sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:src="@drawable/ic_user"
+                            app:civ_border_color="#FF000000"
+                            app:civ_border_width="@dimen/_2sdp" />
 
                         <TextView
                             android:id="@+id/userDetails"
-                            android:layout_margin="@dimen/_4sdp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:maxLines="1"
+                            android:layout_margin="@dimen/_4sdp"
                             android:ellipsize="end"
-                            android:textColor="@color/probeez_black_800"
+                            android:maxLines="1"
                             android:textAlignment="center"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textColor="@color/probeez_black_800"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/userCred"
-                            android:layout_margin="@dimen/_4sdp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_4sdp"
                             android:textAlignment="center"
                             android:textSize="@dimen/_10ssp" />
 
@@ -70,11 +72,11 @@
                                 android:id="@+id/editProfileBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_4sdp"
                                 android:backgroundTint="#FFF"
                                 android:text="Edit Profile"
-                                android:visibility="invisible"
-                                android:layout_margin="@dimen/_4sdp"
-                                android:textColor="@color/probeez_blue_800" />
+                                android:textColor="@color/probeez_blue_800"
+                                android:visibility="gone" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/viewProfileBtn"
@@ -150,9 +152,9 @@
                     android:id="@+id/logoutBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="16dp"
                     android:backgroundTint="@color/probeez_orange_500"
-                    android:layout_gravity="center"
                     android:text="Logout"
                     android:textColor="@color/white" />
 
