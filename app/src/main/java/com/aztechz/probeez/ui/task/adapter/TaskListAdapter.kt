@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aztechz.probeez.R
 import com.aztechz.probeez.model.task.TaskListResponseData
 import com.aztechz.probeez.model.task.TaskListResponseModel
+import com.aztechz.probeez.utils.Utility
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +29,10 @@ class TaskListAdapter(private val arrListTaskListResponseModel: List<TaskListRes
         txtTaskName.text = task.title
         txtVendor.text = task.type
         txtDateTime.text = getFormattedDate(task.taskDate.toString())
+        txtTaskName.typeface = Utility.fontMedium
+        txtVendor.typeface = Utility.fontRegular
+        txtDateTime.typeface = Utility.fontRegular
+
     }
 
     private fun getFormattedDate(inputValue: String): String {

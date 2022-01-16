@@ -20,6 +20,8 @@ import com.aztechz.probeez.util.spring
 
 class ProfileImageFragment : Fragment() {
 
+    private var arrList: ArrayList<String>?= ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,7 +31,11 @@ class ProfileImageFragment : Fragment() {
                 findNavController().navigate(R.id.action_onboarding_to_featured)
             }*/
             saveNextImage.setOnClickListener {
-                findNavController().navigate(R.id.action_profileImageFragment_to_profilePersonalFragment)
+
+                val action = ProfileImageFragmentDirections.actionProfileImageFragmentToProfilePersonalFragment(signupTaskEmailInp.editText?.text.toString(),
+                    arrList?.toTypedArray()!!
+                )
+                findNavController().navigate(action)
             }
             topicGrid.apply {
                 adapter = TopicsAdapter(context).apply {
@@ -37,16 +43,25 @@ class ProfileImageFragment : Fragment() {
                     // data ordered LTR, so reverse it before setting
                     submitList(topics.reversed())
                 }
+
                 smoothScrollToPositionWithSpeed(topics.size)
                 addOnScrollListener(
                     OscillatingScrollListener(resources.getDimensionPixelSize(R.dimen.grid_2))
                 )
             }
+
         }
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arrList = ArrayList()
+
+    }
 }
+
+
 
 
 /**

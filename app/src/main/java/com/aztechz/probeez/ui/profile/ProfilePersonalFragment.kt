@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
 import android.widget.TextView
+import androidx.core.view.get
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.FragmentProfileImageBinding
 import com.aztechz.probeez.databinding.FragmentProfilePersonalBinding
@@ -21,6 +24,19 @@ import com.google.android.material.datepicker.MaterialDatePicker
 
 class ProfilePersonalFragment : Fragment() {
 
+    private val profilePersonalFragmentArgs : ProfilePersonalFragmentArgs by navArgs()
+    private var about: String? = ""
+    private var arralistInterest: List<String>? = ArrayList()
+    private var gender: String? = ""
+    private var strFirstName: String? = ""
+    private var strLastName: String? = ""
+    private var strDob: String? = ""
+    private var strMaritalStatus: String? = ""
+    private var strCity: String? = ""
+    private var strHobbies: String? = ""
+    private var strAddress: String? = ""
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +44,17 @@ class ProfilePersonalFragment : Fragment() {
         val binding = FragmentProfilePersonalBinding.inflate(inflater, container, false).apply {
 
             saveNextPersonal.setOnClickListener {
-                findNavController().navigate(R.id.action_profilePersonalFragment_to_profileProfessionalFragment)
+                strFirstName = firstNameInp.editText?.text.toString()
+                strLastName = lastNameInp.editText?.text.toString()
+                strDob = dobInput.text.toString()
+                strCity = workCityInp.editText?.text.toString()
+                strHobbies = hobbiesInp.editText?.text.toString()
+                strAddress = address.editText?.text.toString()
+
+                val action = ProfilePersonalFragmentDirections.actionProfilePersonalFragmentToProfileProfessionalFragment(gender.toString(),strFirstName.toString(),strLastName.toString(),strDob.toString(),strMaritalStatus.toString(),strCity.toString(),strHobbies.toString(),about.toString(),
+                    arralistInterest?.toTypedArray()!!,
+                    strAddress.toString())
+                findNavController().navigate(action)
             }
 
             val adapters = SpinnerAdapters(requireContext())
@@ -46,13 +72,26 @@ class ProfilePersonalFragment : Fragment() {
             })
             maritalStatusSpinner.adapter = adapters.maritalStatusAdapter
             maritalStatusSpinner.setSelection(0)
+            maritalStatusSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+
+                    strMaritalStatus = adapters.maritalStatusAdapter.getItem(position)
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+            }
 
             maleButton.setOnClickListener {
+                gender = "Male"
                 maleButton.setBackgroundColor(Color.parseColor("#f9aa33"))
                 femaleButton.setBackgroundColor(Color.parseColor("#00000000"))
             }
 
             femaleButton.setOnClickListener {
+                gender = "Female"
                 femaleButton.setBackgroundColor(Color.parseColor("#f9aa33"))
                 maleButton.setBackgroundColor(Color.parseColor("#00000000"))
             }
@@ -75,6 +114,13 @@ class ProfilePersonalFragment : Fragment() {
 
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        about = profilePersonalFragmentArgs.about
+        arralistInterest = profilePersonalFragmentArgs.interests.toList()
     }
 
     private fun addChipToGroup(chipText: String, chipGroup: ChipGroup) {

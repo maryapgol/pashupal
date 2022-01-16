@@ -80,8 +80,8 @@ class LoginActivity : AppCompatActivity() {
             btnLogin.setOnClickListener {
                 if (validateLogin() == null) {
                     val loginRequestModel = LoginRequestModel(
-                        binding.signinTaskEmailTextInp.editText.toString(),
-                        binding.signinPassword.editText.toString()
+                        binding.signinTaskEmailTextInp.editText?.text.toString(),
+                        binding.signinPassword.editText?.text.toString()
                     )
                     loginViewModel?.login(loginRequestModel)
                 } else {

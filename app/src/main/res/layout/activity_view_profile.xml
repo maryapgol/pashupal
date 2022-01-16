@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/conMain"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/probeez_blue_800"
+        android:elevation="@dimen/_2sdp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStartWithNavigation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--<ImageView
+                android:layout_width="224dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_logo_with_tagline" />-->
+
+            <TextView
+                android:id="@+id/app_name"
+                android:text="@string/app_name"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_20ssp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="@dimen/grid_1"
+        android:clipToPadding="false"
+        android:background="?android:colorBackground"
+        >
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     >
+     <ImageView
+         android:id="@+id/imgUser"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+         app:layout_constraintDimensionRatio="H,550:309"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         />
+     <TextView
+         android:id="@+id/txtName"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:maxLines="1"
+         android:lines="1"
+         android:ellipsize="end"
+         android:textColor="@color/white"
+         android:padding="@dimen/_8sdp"
+         android:textSize="@dimen/_16ssp"
+         android:fontFamily="@font/work_sans_bold"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintBottom_toBottomOf="@+id/imgUser"
+         />
+     <com.google.android.material.tabs.TabLayout
+         android:id="@+id/tabs"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/_40sdp"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/imgUser"
+         app:tabGravity="fill"
+         app:tabTextColor="@color/white"
+         android:background="@color/probeez_black_800"
+         app:tabMode="fixed" />
+
+
+
+     <androidx.viewpager.widget.ViewPager
+         android:id="@+id/viewPager"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/tabs"
+         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

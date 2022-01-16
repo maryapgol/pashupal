@@ -147,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_4sdp"
                 android:backgroundTint="@color/probeez_orange_500"
+                android:visibility="invisible"
                 android:text="Add more"/>
 
             <com.google.android.material.button.MaterialButton

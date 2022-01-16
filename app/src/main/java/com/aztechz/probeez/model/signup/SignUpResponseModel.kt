@@ -7,7 +7,7 @@ data class SignUpResponseModel(
     val statusCode: String? = null
 )
     data class SignUpResponseData(
-        val __v: Int? = null,
+        val __v: String? = null,
         val _id: String? = null,
         val createDate: String? = null,
         val files: List<Any>? = null,

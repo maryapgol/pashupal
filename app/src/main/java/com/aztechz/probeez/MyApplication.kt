@@ -4,14 +4,18 @@ import android.app.Application
 import android.content.Context
 import androidx.viewbinding.BuildConfig
 import com.aztechz.probeez.util.ReleaseTree
+import com.aztechz.probeez.utils.Utility
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
 class MyApplication : Application() {
+
+
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
+        Utility.setFont(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
                 override fun createStackElementTag(element: StackTraceElement): String? {

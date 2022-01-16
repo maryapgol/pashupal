@@ -109,6 +109,8 @@ class TaskActivity : AppCompatActivity() {
 
                 is DataState.Success<AddVendorResponseModel> -> {
                     CustomProgress.hideProgress()
+                    vendorViewModel.getVendorList(DataProcessor(this@TaskActivity).getStr("user_id").toString())
+
                     Log.i("ComposeFragment", " " + it.data)
                     if (it.data.statusCode == "001") {
                         Snackbar.make(
@@ -117,6 +119,7 @@ class TaskActivity : AppCompatActivity() {
                             Snackbar.LENGTH_SHORT
                         )
                             .show()
+
                     } else {
                         Snackbar.make(
                             binding.root,

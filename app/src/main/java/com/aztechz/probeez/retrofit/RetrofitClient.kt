@@ -4,6 +4,9 @@ import com.aztechz.probeez.model.SignUpResponseData
 import com.aztechz.probeez.model.SignUpResponseModel
 import com.aztechz.probeez.model.login.LoginRequestModel
 import com.aztechz.probeez.model.login.LoginResponseDataModel
+import com.aztechz.probeez.model.profile.ProfileResponseModel
+import com.aztechz.probeez.model.profile.ProfileUpdateRequest
+import com.aztechz.probeez.model.profile.UpdateProfileResponseModel
 import com.aztechz.probeez.model.signup.SignUpRequest
 import com.aztechz.probeez.model.task.TaskListResponseModel
 import com.aztechz.probeez.model.task.TaskRequestModel
@@ -32,5 +35,11 @@ interface RetrofitClient {
 
     @GET()
     suspend fun getVendorList(@Url url: String): VendorListResponseModel
+
+    @GET()
+    suspend fun getProfileDetails(@Url url: String): ProfileResponseModel
+
+    @POST("user/update")
+    suspend fun updateProfile(@Body profileUpdateRequest: ProfileUpdateRequest): UpdateProfileResponseModel
 
 }

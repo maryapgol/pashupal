@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.ListAdapter
 import com.aztechz.probeez.data.Task
 import com.aztechz.probeez.data.TaskDiffCallback
 import com.aztechz.probeez.databinding.TaskItemLayoutBinding
+import com.aztechz.probeez.utils.Utility
+import kotlinx.android.synthetic.main.task_item_layout.view.*
 
 /**
  * Simple adapter to display Task's in MainActivity.
@@ -51,5 +53,9 @@ class TaskAdapter(
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.sender_text_view.typeface = Utility.fontRegular
+        holder.itemView.subject_text_view.typeface = Utility.fontBold
+        holder.itemView.body_preview_text_view.typeface = Utility.fontRegular
+
     }
 }

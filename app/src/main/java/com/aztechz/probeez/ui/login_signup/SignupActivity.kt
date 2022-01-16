@@ -54,10 +54,13 @@ class SignupActivity : AppCompatActivity() {
                         println("logging: "+it)
                         //Create user profile
                         val dt = DataProcessor(applicationContext)
-                        dt.setStr("email",binding.signupTaskEmailInp.editText.toString())
-                        dt.setStr("phone",binding.signupTaskPhoneInp.editText.toString())
+                        dt.setStr("email",binding.signupTaskEmailInp.editText?.text.toString())
+                        dt.setStr("phone",binding.signupTaskPhoneInp.editText?.text.toString())
                         dt.setStr("user_id",it.data.data?.userId)
                         dt.setStr("cred",it.data.data?.userId)
+                        dt.setStr("_id",it.data.data?._id)
+                        dt.setStr("__v",it.data.data?.__v.toString())
+
                         startActivity(Intent(this@SignupActivity, ProfileActivity::class.java))
                         finish()
                     }else{
@@ -85,8 +88,8 @@ class SignupActivity : AppCompatActivity() {
 
         binding.btnSignup.setOnClickListener {
             if (validateSignUp() == null) {
-
-                val signUpRequest = SignUpRequest("",binding.signupTaskEmailInp.editText.toString(),binding.signupTaskPhoneInp.editText.toString(),binding.signupRePassword.editText.toString())
+                Log.i(TAG,"Email: "+binding.signupTaskEmailInp.editText?.text.toString())
+                val signUpRequest = SignUpRequest("",binding.signupTaskEmailInp.editText?.text.toString(),binding.signupTaskPhoneInp.editText?.text.toString(),binding.signupRePassword.editText?.text.toString())
                 signUpResponseModel?.signUp(signUpRequest)
 
             }else {

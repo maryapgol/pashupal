@@ -6,7 +6,11 @@ import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.ActivityLoginBinding
 import com.aztechz.probeez.databinding.ActivityProfileBinding
 import com.aztechz.probeez.util.contentView
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
     private val binding: ActivityProfileBinding by contentView(R.layout.activity_profile)
 

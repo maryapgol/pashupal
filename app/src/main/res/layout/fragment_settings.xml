@@ -45,6 +45,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textColor="@color/probeez_black_800"
                             android:textAlignment="center"
                             android:textSize="@dimen/_12ssp" />
 
@@ -69,6 +72,7 @@
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="#FFF"
                                 android:text="Edit Profile"
+                                android:visibility="invisible"
                                 android:layout_margin="@dimen/_4sdp"
                                 android:textColor="@color/probeez_blue_800" />
 

@@ -23,6 +23,12 @@
         <action
             android:id="@+id/action_profilePersonalFragment_to_profileProfessionalFragment"
             app:destination="@id/profileProfessionalFragment" />
+        <argument
+            android:name="about"
+            app:argType="string" />
+        <argument
+            android:name="interests"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/profileProfessionalFragment"
@@ -32,12 +38,112 @@
         <action
             android:id="@+id/action_profileProfessionalFragment_to_profileProfessionalCategoryFragment"
             app:destination="@id/profileProfessionalCategoryFragment" />
+        <argument
+            android:name="gender"
+            app:argType="string" />
+        <argument
+            android:name="firstname"
+            app:argType="string" />
+        <argument
+            android:name="lastname"
+            app:argType="string" />
+        <argument
+            android:name="dob"
+            app:argType="string" />
+        <argument
+            android:name="maritalstatus"
+            app:argType="string" />
+        <argument
+            android:name="city"
+            app:argType="string" />
+        <argument
+            android:name="hobbies"
+            app:argType="string" />
+        <argument
+            android:name="about"
+            app:argType="string" />
+        <argument
+            android:name="interest"
+            app:argType="string[]" />
+        <argument
+            android:name="address"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profileAssetsFragment"
         android:name="com.aztechz.probeez.ui.profile.ProfileAssetsFragment"
         android:label="fragment_profile_assets"
-        tools:layout="@layout/fragment_profile_assets" />
+        tools:layout="@layout/fragment_profile_assets" >
+        <argument
+            android:name="gender"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="firstname"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="lastname"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="dob"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="maritalstatus"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="city"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="hobbies"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="about"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="interest"
+            app:argType="string[]"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="address"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="education"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="yearsWorking"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="currentExp"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="achievements"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="skills"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="certificate"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="professionalIdentity"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
     <fragment
         android:id="@+id/profileProfessionalCategoryFragment"
         android:name="com.aztechz.probeez.ui.profile.ProfileProfessionalCategoryFragment"
@@ -46,8 +152,74 @@
         <action
             android:id="@+id/action_profileProfessionalCategoryFragment_to_profileAssetsFragment"
             app:destination="@id/profileAssetsFragment" />
-        <action
-            android:id="@+id/action_profileProfessionalCategoryFragment_self"
-            app:destination="@id/profileProfessionalCategoryFragment" />
+           <argument
+            android:name="gender"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="firstname"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="lastname"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="dob"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="maritalstatus"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="city"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="hobbies"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="about"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="interest"
+            app:argType="string[]"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="address"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="education"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="yearsWorking"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="currentExp"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="achievements"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="skills"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="certificate"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="professionalIdentity"
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
 </navigation>
