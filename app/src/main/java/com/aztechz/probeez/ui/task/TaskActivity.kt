@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.ActivityTaskBinding
@@ -48,7 +47,7 @@ class TaskActivity : AppCompatActivity() {
     private val taskTypes = arrayOf("Personal", "Professional")
     private var tasktype = ""
     private lateinit var alertDialog: android.app.AlertDialog
-    private var strVendorId: String? = null
+    private var strVendorId: String? = ""
     private var isProfessionalSelected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,7 +108,9 @@ class TaskActivity : AppCompatActivity() {
 
                 is DataState.Success<AddVendorResponseModel> -> {
                     CustomProgress.hideProgress()
-                    vendorViewModel.getVendorList(DataProcessor(this@TaskActivity).getStr("user_id").toString())
+                    vendorViewModel.getVendorList(
+                        DataProcessor(this@TaskActivity).getStr("user_id").toString()
+                    )
 
                     Log.i("ComposeFragment", " " + it.data)
                     if (it.data.statusCode == "001") {
@@ -202,7 +203,7 @@ class TaskActivity : AppCompatActivity() {
                         Snackbar.LENGTH_SHORT
                     )
                         .show()
-                    Log.i("TaskActivity","Error vendor: "+it.exception.printStackTrace())
+                    Log.i("TaskActivity", "Error vendor: " + it.exception.printStackTrace())
                 }
 
             }
@@ -242,7 +243,9 @@ class TaskActivity : AppCompatActivity() {
                             taskAmount.visibility = View.VISIBLE
                             amountDivider.visibility = View.VISIBLE
                             //fetch vendor list
-                            vendorViewModel.getVendorList(DataProcessor(this@TaskActivity).getStr("user_id").toString())
+                            vendorViewModel.getVendorList(
+                                DataProcessor(this@TaskActivity).getStr("user_id").toString()
+                            )
                         } else {
                             isProfessionalSelected = false
                             taskVendorSpinner.visibility = View.GONE
@@ -270,9 +273,15 @@ class TaskActivity : AppCompatActivity() {
             }
 
             datePicker.addOnPositiveButtonClickListener {
-
+                // Get the offset from our timezone and UTC.
+                val timeZoneUTC = TimeZone.getDefault()
+                // It will be negative, so that's the -1
+                val offsetFromUTC = timeZoneUTC.getOffset(Date().time) * -1
+                // Create a date format, then a date object with our offset
+                val simpleFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                val date = Date(it + offsetFromUTC)
                 Log.i("ComposeFragment", "data set: " + datePicker.headerText)
-                taskDateSelector.text = datePicker.headerText
+                taskDateSelector.text = simpleFormat.format(date)
             }
 
 
@@ -383,23 +392,26 @@ class TaskActivity : AppCompatActivity() {
             // TODO: Set up MaterialContainerTransform enterTransition and Slide returnTransition.
         }
 
-        binding.taskVendorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        binding.taskVendorSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-            }
+                }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     val vendorList = parent?.getItemAtPosition(position) as VendorListData
-                Log.i("TaskActivity","On item Selected:"+vendorList._id)
-                Log.i("TaskActivity","Version:"+vendorList.__v)
 
-                if(!vendorList._id.isNullOrEmpty())
-                  {
-                      strVendorId = vendorList._id
-                  }
+                    if (!vendorList._id.isNullOrEmpty()) {
+                        strVendorId = vendorList._id
+                    }
+                }
+
             }
-
-        }
 
     }
 
@@ -418,6 +430,7 @@ class TaskActivity : AppCompatActivity() {
                 Snackbar.LENGTH_SHORT
             )
                 .show()
+            e.printStackTrace()
         }
 
         return ""
@@ -426,7 +439,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun saveTask() {
 //binding.taskTimeSelector.text.toString() ass this wen fixed time format
-        if(isProfessionalSelected && strVendorId.isNullOrEmpty()) {
+        if (isProfessionalSelected && strVendorId.isNullOrEmpty()) {
             Snackbar.make(
                 binding.root,
                 resources.getString(R.string.select_vendor),
@@ -436,7 +449,8 @@ class TaskActivity : AppCompatActivity() {
             return
         }
         val dataProcessor = DataProcessor(this@TaskActivity)
-        if (getFormattedDate(binding.taskDateSelector.text.toString()).isNullOrEmpty()) {
+        Log.i("TaskActivity", "Date : " + binding.taskDateSelector.text)
+        if (binding.taskDateSelector.text.toString().isNullOrEmpty()) {
             Snackbar.make(
                 binding.root,
                 resources.getString(R.string.enter_valid_date_time),
@@ -447,12 +461,12 @@ class TaskActivity : AppCompatActivity() {
         }
         val tasks = TaskRequestModel(
             binding.taskBodyTextView.text.toString(),
-            getFormattedDate(binding.taskDateSelector.text.toString()),
+            binding.taskDateSelector.text.toString(),
             "",
             binding.taskTitleText.text.toString(),
             binding.taskTypeSpinner.selectedItem.toString(),
             dataProcessor.getStr("user_id").toString(),
-            strVendorId!!
+            strVendorId.toString()
         )
         Log.i("ComposeFragment", "Request: " + tasks)
         taskViewModel.addTask(tasks)
