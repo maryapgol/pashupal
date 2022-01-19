@@ -13,6 +13,7 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aztechz.probeez.data.Topic
 import com.aztechz.probeez.data.topics
 import com.aztechz.probeez.databinding.FragmentProfileImageBinding
@@ -38,7 +39,9 @@ class ProfileImageFragment : Fragment() {
 
                 for(topic in arrListTopic as ArrayList)
                 {
-                    arrList?.add(topic?.name.toString())
+                    if(topic?.isSelected == true) {
+                        arrList?.add(topic.name.toString())
+                    }
                 }
                 val action =
                     ProfileImageFragmentDirections.actionProfileImageFragmentToProfilePersonalFragment(
@@ -51,7 +54,7 @@ class ProfileImageFragment : Fragment() {
             arrListTopic?.addAll(topics.toList())
             topicGrid.apply {
                 adapter = InterestAdapter(activity as Activity, arrListTopic,onItemSelectedListener)
-
+               layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.HORIZONTAL)
                 smoothScrollToPositionWithSpeed(topics.size)
                 /*addOnScrollListener(
                     OscillatingScrollListener(resources.getDimensionPixelSize(R.dimen.grid_2))
