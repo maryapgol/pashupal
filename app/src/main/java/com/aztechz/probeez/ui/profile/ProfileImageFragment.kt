@@ -1,5 +1,6 @@
 package com.aztechz.probeez.ui.profile
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.fragment.app.Fragment
@@ -12,15 +13,18 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import com.aztechz.probeez.R
+import com.aztechz.probeez.data.Topic
 import com.aztechz.probeez.data.topics
 import com.aztechz.probeez.databinding.FragmentProfileImageBinding
-import com.aztechz.probeez.util.TopicsAdapter
+import com.aztechz.probeez.model.profile.OnInterestSelectListener
+import com.aztechz.probeez.ui.profile.adapter.InterestAdapter
 import com.aztechz.probeez.util.spring
+import kotlinx.android.synthetic.main.fragment_profile_image.*
 
 class ProfileImageFragment : Fragment() {
 
-    private var arrList: ArrayList<String>?= ArrayList()
+    private var arrList: ArrayList<String>? = ArrayList()
+    private var arrListTopic: ArrayList<Topic?>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,24 +36,45 @@ class ProfileImageFragment : Fragment() {
             }*/
             saveNextImage.setOnClickListener {
 
-                val action = ProfileImageFragmentDirections.actionProfileImageFragmentToProfilePersonalFragment(signupTaskEmailInp.editText?.text.toString(),
-                    arrList?.toTypedArray()!!
-                )
+                for(topic in arrListTopic as ArrayList)
+                {
+                    arrList?.add(topic?.name.toString())
+                }
+                val action =
+                    ProfileImageFragmentDirections.actionProfileImageFragmentToProfilePersonalFragment(
+                        signupTaskEmailInp.editText?.text.toString(),
+                        arrList?.toTypedArray()!!
+                    )
                 findNavController().navigate(action)
             }
+            arrListTopic = ArrayList()
+            arrListTopic?.addAll(topics.toList())
             topicGrid.apply {
-                adapter = TopicsAdapter(context).apply {
-                    // We're setting reverseLayout on the RV to layout from RTL, but we still want
-                    // data ordered LTR, so reverse it before setting
-                    submitList(topics.reversed())
-                }
+                adapter = InterestAdapter(activity as Activity, arrListTopic,onItemSelectedListener)
 
                 smoothScrollToPositionWithSpeed(topics.size)
-                addOnScrollListener(
+                /*addOnScrollListener(
                     OscillatingScrollListener(resources.getDimensionPixelSize(R.dimen.grid_2))
-                )
+                )*/
             }
 
+            skip.setOnClickListener {
+                val action =
+                    ProfileImageFragmentDirections.actionProfileImageFragmentToProfilePersonalFragment(
+                        signupTaskEmailInp.editText?.text.toString(),
+                        arrList?.toTypedArray()!!
+                    )
+                findNavController().navigate(action)
+            }
+
+
+            pdSubtitleText.typeface = com.aztechz.probeez.utils.Utility.fontRegular
+            saveNextImage.typeface = com.aztechz.probeez.utils.Utility.fontMedium
+            skip.typeface = com.aztechz.probeez.utils.Utility.fontMedium
+            pdTitleText.typeface = com.aztechz.probeez.utils.Utility.fontBold
+            choose.typeface = com.aztechz.probeez.utils.Utility.fontBold
+            signupTaskEmailInp.typeface = com.aztechz.probeez.utils.Utility.fontRegular
+            edtSignUp.typeface = com.aztechz.probeez.utils.Utility.fontRegular
         }
         return binding.root
     }
@@ -59,9 +84,15 @@ class ProfileImageFragment : Fragment() {
         arrList = ArrayList()
 
     }
+
+    private val onItemSelectedListener = object : OnInterestSelectListener {
+        override fun onInterestSelected(position: Int) {
+            arrListTopic?.get(position)?.isSelected = !((arrListTopic?.get(position)?.isSelected)?:false)
+            topic_grid.adapter?.notifyDataSetChanged()
+        }
+
+    }
 }
-
-
 
 
 /**
@@ -92,6 +123,8 @@ class OscillatingScrollListener(
         }
     }
 }
+
+
 
 fun RecyclerView.smoothScrollToPositionWithSpeed(
     position: Int,

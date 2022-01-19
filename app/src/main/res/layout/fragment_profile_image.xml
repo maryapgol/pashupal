@@ -27,10 +27,10 @@
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:gravity="center"
-                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textColor="@color/probeez_black_800"
+                android:textSize="@dimen/huge_text_size"
                 android:paddingHorizontal="@dimen/grid_1"
                 android:text="Lets build your profile now"
-                android:textSize="24sp"
                 app:marginLeftSystemWindowInsets="@{true}"
                 app:marginRightSystemWindowInsets="@{true}"
                 tools:layout_editor_absoluteX="16dp" />
@@ -42,9 +42,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pdTitleText"
                 android:gravity="center"
-                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="@color/probeez_black_800"
                 android:text="Enter some basic details"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_text_size" />
 
         </RelativeLayout>
 
@@ -87,9 +87,11 @@
                 app:layout_constraintTop_toTopOf="@+id/profileImageView">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
                     android:gravity="bottom"
+                    android:textSize="@dimen/title_text_size"
                     android:hint="Tell me something \nmore about you"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -101,11 +103,11 @@
             android:id="@+id/choose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_4"
-            android:gravity="end"
+            android:gravity="center"
             android:padding="@dimen/grid_2"
+            android:textColor="@color/probeez_black_800"
+            android:textSize="@dimen/huge_text_size"
             android:text="@string/choose_topics_that_interest_you"
-            android:textAppearance="?attr/textAppearanceHeadline4"
             app:layout_constraintBottom_toTopOf="@id/topic_grid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,6 +143,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
         <com.google.android.material.button.MaterialButton
+           android:id="@+id/skip"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

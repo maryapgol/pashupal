@@ -16,6 +16,7 @@ import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.FragmentProfileImageBinding
 import com.aztechz.probeez.databinding.FragmentProfilePersonalBinding
 import com.aztechz.probeez.util.SpinnerAdapters
+import com.aztechz.probeez.utils.Utility
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
@@ -44,6 +45,20 @@ class ProfilePersonalFragment : Fragment() {
         val binding = FragmentProfilePersonalBinding.inflate(inflater, container, false).apply {
 
             saveNextPersonal.setOnClickListener {
+                strFirstName = firstNameInp.editText?.text.toString()
+                strLastName = lastNameInp.editText?.text.toString()
+                strDob = dobInput.text.toString()
+                strCity = workCityInp.editText?.text.toString()
+                strHobbies = hobbiesInp.editText?.text.toString()
+                strAddress = address.editText?.text.toString()
+
+                val action = ProfilePersonalFragmentDirections.actionProfilePersonalFragmentToProfileProfessionalFragment(gender.toString(),strFirstName.toString(),strLastName.toString(),strDob.toString(),strMaritalStatus.toString(),strCity.toString(),strHobbies.toString(),about.toString(),
+                    arralistInterest?.toTypedArray()!!,
+                    strAddress.toString())
+                findNavController().navigate(action)
+            }
+
+            skip.setOnClickListener {
                 strFirstName = firstNameInp.editText?.text.toString()
                 strLastName = lastNameInp.editText?.text.toString()
                 strDob = dobInput.text.toString()
@@ -110,8 +125,22 @@ class ProfilePersonalFragment : Fragment() {
                 dobInput.text = datePicker.headerText
             }
 
-
-
+            pdTitleText.typeface = Utility.fontBold
+            pdSubtitleText.typeface = Utility.fontRegular
+            genderText.typeface = Utility.fontRegular
+            firstNameInp.typeface = Utility.fontRegular
+            edtFirstName.typeface = Utility.fontRegular
+            lastNameInp.typeface = Utility.fontRegular
+            edtLastName.typeface = Utility.fontRegular
+            dobInput.typeface = Utility.fontButton
+            workCityInp.typeface = Utility.fontRegular
+            edtWorkCity.typeface = Utility.fontRegular
+            address.typeface = Utility.fontRegular
+            edtAddress.typeface = Utility.fontRegular
+            hobbiesInp.typeface = Utility.fontRegular
+            etHobbiesValue.typeface = Utility.fontRegular
+            skip.typeface = Utility.fontButton
+            saveNextPersonal.typeface = Utility.fontButton
         }
         return binding.root
     }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_250sdp"
+    android:layout_height="@dimen/_75sdp"
+    android:background="@color/white"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginHorizontal="@dimen/_5sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ImageView
+    android:id="@+id/imgInterest"
+    app:layout_constraintDimensionRatio="H,1:1"
+    android:layout_height="0dp"
+    android:layout_width="0dp"
+    android:scaleType="fitXY"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    />
+    <ImageView
+        android:id="@+id/conSelected"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@+id/imgInterest"
+        app:layout_constraintTop_toTopOf="@+id/imgInterest"
+        app:layout_constraintEnd_toEndOf="@+id/imgInterest"
+        android:background="@color/topic_tint"
+        android:visibility="gone"
+        android:src="@drawable/ic_checkmark"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@+id/imgInterest"
+        />
+ <TextView
+     android:id="@+id/txtCourse"
+     android:layout_width="0dp"
+     android:layout_height="wrap_content"
+     android:textSize="@dimen/header_text_size"
+     android:textColor="@color/blank"
+     android:text="Course"
+     android:gravity="center"
+     android:layout_marginHorizontal="@dimen/_5sdp"
+     app:layout_constraintStart_toEndOf="@+id/imgInterest"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_chainStyle="packed"
+     app:layout_constraintBottom_toTopOf="@+id/txtUser"
+     app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/subtitle_text_size"
+        android:textColor="@color/blank"
+        android:gravity="center"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@+id/txtCourse"
+        app:layout_constraintStart_toEndOf="@+id/imgInterest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

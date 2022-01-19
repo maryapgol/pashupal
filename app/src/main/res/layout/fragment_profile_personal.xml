@@ -39,8 +39,8 @@
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/grid_1"
                 android:text="Describe yourself more"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                android:textSize="24sp"
+                android:textSize="@dimen/huge_text_size"
+                android:textColor="@color/probeez_black_800"
                 app:marginLeftSystemWindowInsets="@{true}"
                 app:marginRightSystemWindowInsets="@{true}"
                 tools:layout_editor_absoluteX="16dp" />
@@ -52,9 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pdTitleText"
                 android:gravity="center"
+                android:textColor="@color/probeez_black_800"
                 android:text="Enter some more personal details"
-                android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_text_size" />
 
         </RelativeLayout>
 
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAppearance="?attr/textAppearanceHeadline1"
-            android:textSize="16sp" />
+            android:textSize="@dimen/title_text_size" />
 
         <LinearLayout
             android:id="@+id/genderSelector"
@@ -114,6 +114,7 @@
             app:layout_constraintTop_toBottomOf="@+id/genderSelector">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -131,6 +132,7 @@
             app:layout_constraintTop_toBottomOf="@+id/firstNameInp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtLastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -171,6 +173,7 @@
             app:layout_constraintTop_toBottomOf="@+id/maritalStatusSpinner">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtWorkCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -188,6 +191,7 @@
             app:layout_constraintTop_toBottomOf="@+id/workCityInp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -237,6 +241,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/skip"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

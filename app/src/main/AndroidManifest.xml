@@ -24,10 +24,10 @@
             android:name=".ui.task.TaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity
+        <!--<activity
             android:name=".ui.ProfileActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" />-->
         <activity android:name=".ui.profile.ViewProfileActivity"
             android:screenOrientation="portrait"/>
 
@@ -46,7 +46,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.ProfileActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             >

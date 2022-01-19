@@ -38,10 +38,11 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:gravity="center"
+                android:textColor="@color/probeez_black_800"
                 android:paddingHorizontal="@dimen/grid_1"
                 android:text="Professional details"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                android:textSize="24sp"
+                android:textSize="@dimen/huge_text_size"
+
                 app:marginLeftSystemWindowInsets="@{true}"
                 app:marginRightSystemWindowInsets="@{true}"
                 tools:layout_editor_absoluteX="16dp" />
@@ -53,9 +54,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pdTitleText"
                 android:gravity="center"
+                android:textColor="@color/probeez_black_800"
                 android:text="We would like to know you professionally"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_text_size" />
 
         </RelativeLayout>
 
@@ -86,6 +88,7 @@
             app:layout_constraintTop_toBottomOf="@id/educationSpinner">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtWorking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -103,6 +106,8 @@
             app:layout_constraintTop_toBottomOf="@id/workingInp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtYearsExp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -219,6 +224,7 @@
             app:layout_constraintTop_toBottomOf="@id/chip_group_courses">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtProfessional"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -236,6 +242,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/skip"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

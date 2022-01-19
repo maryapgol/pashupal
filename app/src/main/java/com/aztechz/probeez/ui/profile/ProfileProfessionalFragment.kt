@@ -26,6 +26,7 @@ import com.aztechz.probeez.util.DataProcessor
 import com.aztechz.probeez.util.SpinnerAdapters
 import com.aztechz.probeez.utils.CustomProgress
 import com.aztechz.probeez.utils.DataState
+import com.aztechz.probeez.utils.Utility
 import com.aztechz.probeez.viewmodel.ProfileViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -100,6 +101,10 @@ class ProfileProfessionalFragment : Fragment() {
                 findNavController().navigate(R.id.action_profileProfessionalFragment_to_profileProfessionalCategoryFragment)*/
             }
 
+            skip.setOnClickListener {
+                saveNextProfessional.performClick()
+            }
+
             val adapters = SpinnerAdapters(requireContext())
             etAchievementValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -145,6 +150,22 @@ class ProfileProfessionalFragment : Fragment() {
                 }
 
             }
+            pdTitleText.typeface = Utility.fontBold
+            pdSubtitleText.typeface = Utility.fontRegular
+            workingInp.typeface = Utility.fontRegular
+            edtWorking.typeface = Utility.fontRegular
+            yearsExpInp.typeface = Utility.fontRegular
+            edtYearsExp.typeface = Utility.fontRegular
+            achievementsInp.typeface = Utility.fontRegular
+            etAchievementValue.typeface = Utility.fontRegular
+            etSkillValue.typeface = Utility.fontRegular
+            skillsInp.typeface = Utility.fontRegular
+            etcoursesValue.typeface = Utility.fontRegular
+            coursesInp.typeface = Utility.fontRegular
+            professionalInp.typeface = Utility.fontRegular
+            edtProfessional.typeface = Utility.fontRegular
+            skip.typeface = Utility.fontButton
+            saveNextProfessional.typeface = Utility.fontButton
         }
 
         return binding.root
