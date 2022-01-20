@@ -10,10 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.aztechz.probeez.MainActivity
-import com.aztechz.probeez.R
-import com.aztechz.probeez.databinding.FragmentHomeBinding
 import com.aztechz.probeez.databinding.FragmentSettingsBinding
+import com.aztechz.probeez.model.profile.ProfileData
+import com.aztechz.probeez.ui.ProfileActivity
 import com.aztechz.probeez.ui.login_signup.LoginActivity
 import com.aztechz.probeez.ui.profile.ViewProfileActivity
 import com.aztechz.probeez.util.DataProcessor
@@ -31,6 +30,7 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val profileViewModel: ProfileViewModel by viewModels()
     private val TAG = "SettingsFragment"
+    private var profileData: ProfileData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +54,7 @@ class SettingsFragment : Fragment() {
         binding.settingPrivacy.typeface = Utility.fontRegular
         binding.settingTerms.typeface = Utility.fontRegular
         binding.logoutBtn.typeface = Utility.fontMedium
+        binding.editProfileBtn.typeface = Utility.fontMedium
 
         profileViewModel.profileData.observe(viewLifecycleOwner, Observer {
 
@@ -70,8 +71,8 @@ class SettingsFragment : Fragment() {
                  Log.i(TAG,"Response: "+it.data)
                     if(!it.data.data.isNullOrEmpty())
                     {
+                        profileData = it.data.data[0]
                         binding.userDetails.text = it.data.data[0]?.fullname
-
                     }
 
                 }
@@ -99,6 +100,12 @@ class SettingsFragment : Fragment() {
         }
         binding.viewProfileBtn.setOnClickListener {
            val intent = Intent(activity, ViewProfileActivity::class.java)
+            startActivity(intent)
+        }
+        binding.editProfileBtn.setOnClickListener {
+            val intent = Intent(activity, ProfileActivity::class.java)
+            intent.putExtra("profileData",profileData)
+            intent.putExtra("isFromEditProfile",true)
             startActivity(intent)
         }
     }

@@ -76,7 +76,7 @@
                                 android:backgroundTint="#FFF"
                                 android:text="Edit Profile"
                                 android:textColor="@color/probeez_blue_800"
-                                android:visibility="gone" />
+                                 />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/viewProfileBtn"

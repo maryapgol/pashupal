@@ -1,5 +1,7 @@
 package com.aztechz.probeez.model.profile
 
+import java.io.Serializable
+
 data class ProfileResponseModel(
     val `data`: List<ProfileData?>? = null,
     val message: String? = null,
@@ -19,7 +21,7 @@ data class ProfileResponseModel(
         val phone: Long? = 0L,
         val professionalDetails: ProfessionalDetails? = null,
         val userId: String? = null
-    )
+    ): Serializable
         data class PersonalDetails(
             val about: String? = null,
             val addressLine1: String? = null,
@@ -28,12 +30,12 @@ data class ProfileResponseModel(
             val intersts: List<String?>? = null,
             val pincode: Int? = 0,
             val state: String? = null
-        )
+        ): Serializable
 
         data class ProfessionalDetails(
             val certificates: List<String?>? = null,
             val hobbies: List<String?>? = null,
             val skills: List<String?>? = null,
             val testimonials: List<String?>? = null
-        )
+        ): Serializable
 
