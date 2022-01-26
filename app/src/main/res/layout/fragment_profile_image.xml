@@ -55,16 +55,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <com.google.android.material.imageview.ShapeableImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profileImageView"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="Click to add a Profile Picture"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:padding="2dp"
                 android:src="@drawable/add_user"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
                 app:strokeColor="@android:color/white"
                 app:strokeWidth="2dp" />
 

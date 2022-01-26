@@ -7,6 +7,7 @@ data class UpdateProfileResponseModel(
     val statusCode: String
 )
     data class UpdateProfileData(
+        val profilePic: String,
         val __v: Int,
         val _id: String,
         val createDate: String,

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imagePickerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/_7sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:paddingTop="@dimen/_3sdp"
+            android:text="@string/image_picker"
+            android:textAlignment="center"
+            android:textColor="@color/probeez_black_800"
+            android:textSize="@dimen/header_text_size" />
+
+        <TextView
+            android:id="@+id/txtMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:background="@drawable/bg_dialog"
+            android:padding="@dimen/_7sdp"
+            android:text="@string/image_picker_subtitle"
+            android:textAlignment="center"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="@dimen/title_text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_line_color" />
+
+        <TextView
+            android:id="@+id/txtTakePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:text="@string/take_photo"
+            android:textColor="@color/probeez_black_800"
+            android:textSize="@dimen/header_text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_line_color" />
+
+        <TextView
+            android:id="@+id/txtChoosePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:gravity="center"
+            android:padding="@dimen/_7sdp"
+            android:text="@string/choose_existing_photo"
+            android:textColor="@color/probeez_black_800"
+            android:textSize="@dimen/header_text_size" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtCancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:background="@drawable/bg_dialog"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/probeez_black_800"
+        android:textSize="@dimen/title_text_size" />
+
+</LinearLayout>

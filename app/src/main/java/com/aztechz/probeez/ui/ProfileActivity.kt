@@ -28,7 +28,7 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-           if(intent.hasExtra("isFromEditProfile"))
+           if(intent.hasExtra("isFromEditProfile")&& intent.hasExtra("profileData") && intent.getSerializableExtra("profileData")!=null)
            {
                isFromEditProfile = true
                val bundle = Bundle()

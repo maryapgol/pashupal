@@ -14,6 +14,8 @@ import com.aztechz.probeez.model.task.TaskResponseModel
 import com.aztechz.probeez.model.vendor.AddVendorResponseModel
 import com.aztechz.probeez.model.vendor.VendorListResponseModel
 import com.aztechz.probeez.repository.vendor.AddVendorRequestModel
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface RetrofitClient {
@@ -39,7 +41,9 @@ interface RetrofitClient {
     @GET()
     suspend fun getProfileDetails(@Url url: String): ProfileResponseModel
 
+    @Multipart
     @POST("user/update")
-    suspend fun updateProfile(@Body profileUpdateRequest: ProfileUpdateRequest): UpdateProfileResponseModel
+    @JvmSuppressWildcards
+    suspend fun updateProfile(@PartMap map: Map<String,RequestBody>): UpdateProfileResponseModel
 
 }

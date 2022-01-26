@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -28,12 +29,14 @@ object RetrofitModule {
 // set your desired log level
         logging.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder()
+
 // add your other interceptors …
 // add logging as last interceptor
 // add your other interceptors …
 // add logging as last interceptor
         httpClient.addInterceptor(logging) // <-- this is the important line!
-
+        httpClient.connectTimeout(100,TimeUnit.SECONDS)
+        httpClient.readTimeout(100,TimeUnit.SECONDS)
         return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl("http://13.126.31.168/").client(httpClient.build())
 

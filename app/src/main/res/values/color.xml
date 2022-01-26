@@ -32,6 +32,9 @@
     <color name="probeez_black_900_alpha_020">#33000000</color>
     <color name="probeez_black_900_alpha_087">#de000000</color>
     <color name="probeez_black_900_alpha_060">#99000000</color>
+    <color name="divider_line_color">#BBC5CD</color>
+    <color name="dialog_background">#F2F2F2</color>
+    <color name="secondary_text_color">#B4BEC3</color>
 
     <!--Nav bar color protection for behavior differences between Android P and Q. All sdk-->
     <!--levels should draw fullscreen. P should color the nav bar with a translucent background -->

@@ -80,7 +80,8 @@ class ProfileProfessionalCategoryFragment : Fragment() {
                         personalDetails,
                         dt?.getStr("phone").toString(),
                         professionalDetails,
-                        dt?.getStr("user_id").toString()
+                        dt?.getStr("user_id").toString(),
+                        ""
                     )
                     profileViewModel.updateProfileDate(profileUpdateRequest)
                         /*val action = ProfileProfessionalCategoryFragmentDirections.actionProfileProfessionalCategoryFragmentToProfileAssetsFragment(

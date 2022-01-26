@@ -36,6 +36,14 @@
         <argument
             android:name="interests"
             app:argType="string[]" />
+        <argument android:name="profileData"
+            app:argType="com.aztechz.probeez.model.profile.ProfileData"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+        <argument
+            android:name="profileImage"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profileProfessionalFragment"
@@ -74,6 +82,14 @@
             app:argType="string[]" />
         <argument
             android:name="address"
+            app:argType="string" />
+        <argument android:name="profileData"
+            app:argType="com.aztechz.probeez.model.profile.ProfileData"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+        <argument
+            android:name="profileImage"
             app:argType="string" />
     </fragment>
     <fragment

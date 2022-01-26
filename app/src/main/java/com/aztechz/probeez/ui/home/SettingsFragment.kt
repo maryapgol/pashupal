@@ -1,5 +1,6 @@
 package com.aztechz.probeez.ui.home
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,16 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.FragmentSettingsBinding
 import com.aztechz.probeez.model.profile.ProfileData
 import com.aztechz.probeez.ui.ProfileActivity
 import com.aztechz.probeez.ui.login_signup.LoginActivity
 import com.aztechz.probeez.ui.profile.ViewProfileActivity
 import com.aztechz.probeez.util.DataProcessor
+import com.aztechz.probeez.util.TopicThumbnailTarget
 import com.aztechz.probeez.utils.CustomProgress
 import com.aztechz.probeez.utils.DataState
 import com.aztechz.probeez.utils.Utility
 import com.aztechz.probeez.viewmodel.ProfileViewModel
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -69,10 +73,15 @@ class SettingsFragment : Fragment() {
                 is DataState.Success ->{
                     CustomProgress.hideProgress()
                  Log.i(TAG,"Response: "+it.data)
-                    if(!it.data.data.isNullOrEmpty())
+                    try {
+                        if (!it.data.data.isNullOrEmpty()) {
+                            profileData = it.data.data[0]
+                            binding.userDetails.text = it.data.data[0]?.fullname
+                            setProfilePic(it.data.data[0]?.profilePic)
+                        }
+                    }catch (e: Exception)
                     {
-                        profileData = it.data.data[0]
-                        binding.userDetails.text = it.data.data[0]?.fullname
+                        print("ERROR: "+e.printStackTrace())
                     }
 
                 }
@@ -107,6 +116,15 @@ class SettingsFragment : Fragment() {
             intent.putExtra("profileData",profileData)
             intent.putExtra("isFromEditProfile",true)
             startActivity(intent)
+        }
+    }
+
+    private fun setProfilePic(profilePic: String?) {
+        if(!profilePic.isNullOrEmpty()) {
+            Glide.with(activity as Activity)
+                .asBitmap()
+                .load(profilePic)
+                .into(binding.userImage)
         }
     }
 }

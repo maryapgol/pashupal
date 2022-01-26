@@ -15,12 +15,19 @@ import androidx.navigation.fragment.navArgs
 import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.FragmentProfileImageBinding
 import com.aztechz.probeez.databinding.FragmentProfilePersonalBinding
+import com.aztechz.probeez.model.profile.ProfileData
 import com.aztechz.probeez.util.SpinnerAdapters
 import com.aztechz.probeez.utils.Utility
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_profile_personal.*
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProfilePersonalFragment : Fragment() {
@@ -36,7 +43,8 @@ class ProfilePersonalFragment : Fragment() {
     private var strCity: String? = ""
     private var strHobbies: String? = ""
     private var strAddress: String? = ""
-
+    private var profileData: ProfileData? = null
+    private var strFilePath: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +62,9 @@ class ProfilePersonalFragment : Fragment() {
 
                 val action = ProfilePersonalFragmentDirections.actionProfilePersonalFragmentToProfileProfessionalFragment(gender.toString(),strFirstName.toString(),strLastName.toString(),strDob.toString(),strMaritalStatus.toString(),strCity.toString(),strHobbies.toString(),about.toString(),
                     arralistInterest?.toTypedArray()!!,
-                    strAddress.toString())
+                    strAddress.toString(),
+                    profileData,
+                    strFilePath.toString())
                 findNavController().navigate(action)
             }
 
@@ -68,7 +78,9 @@ class ProfilePersonalFragment : Fragment() {
 
                 val action = ProfilePersonalFragmentDirections.actionProfilePersonalFragmentToProfileProfessionalFragment(gender.toString(),strFirstName.toString(),strLastName.toString(),strDob.toString(),strMaritalStatus.toString(),strCity.toString(),strHobbies.toString(),about.toString(),
                     arralistInterest?.toTypedArray()!!,
-                    strAddress.toString())
+                    strAddress.toString(),
+                profileData,
+                strFilePath.toString())
                 findNavController().navigate(action)
             }
 
@@ -150,6 +162,58 @@ class ProfilePersonalFragment : Fragment() {
 
         about = profilePersonalFragmentArgs.about
         arralistInterest = profilePersonalFragmentArgs.interests.toList()
+        profileData = profilePersonalFragmentArgs.profileData
+        strFilePath = profilePersonalFragmentArgs.profileImage
+        setProfileData(profileData)
+    }
+
+    private fun setProfileData(profileData: ProfileData?) {
+        if(profileData!=null)
+        {
+            if(!profileData.personalDetails?.gender.isNullOrEmpty())
+            {
+                if(profileData.personalDetails?.gender == "Male")
+                {
+                    maleButton.performClick()
+                }else{
+                    femaleButton.performClick()
+                }
+            }
+
+            if(!profileData.fullname.isNullOrEmpty())
+            {
+               if(profileData.fullname.contains(" "))
+               {
+                  val arrayFullName = profileData.fullname.split(" ")
+                   edtFirstName.setText(arrayFullName[0])
+                   edtLastName.setText(arrayFullName[1])
+               }else{
+                   edtFirstName.setText(profileData.fullname)
+               }
+            }
+
+            if(!profileData.personalDetails?.dob.isNullOrEmpty())
+            {
+                dobInput.setText(getFormattedDate(profileData.personalDetails?.dob.toString()))
+            }
+            if(!profileData.personalDetails?.city.isNullOrEmpty())
+            {
+                edtWorkCity.setText(profileData.personalDetails?.city)
+            }
+            if(!profileData.personalDetails?.addressLine1.isNullOrEmpty())
+            {
+                edtAddress.setText(profileData.personalDetails?.addressLine1)
+            }
+
+            if(!profileData.professionalDetails?.hobbies.isNullOrEmpty())
+            {
+                et_hobbies_value.setText(profileData.professionalDetails?.hobbies?.joinToString(separator = ","))
+            }
+
+
+
+        }
+
     }
 
     private fun addChipToGroup(chipText: String, chipGroup: ChipGroup) {
@@ -165,6 +229,24 @@ class ProfilePersonalFragment : Fragment() {
         chip.isCheckable = false
         chipGroup.addView(chip as View)
         chip.setOnCloseIconClickListener { chipGroup.removeView(chip as View) }
+    }
+
+    private fun getFormattedDate(inputValue: String): String {
+
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
+        var date: Date? = null
+        try {
+            date = inputFormat.parse(inputValue)
+            return outputFormat.format(date)
+
+        } catch (e: ParseException) {
+
+            e.printStackTrace()
+        }
+
+        return ""
+
     }
 
 }

@@ -21,6 +21,7 @@ import com.aztechz.probeez.R
 import com.aztechz.probeez.databinding.FragmentProfileProfessionalBinding
 import com.aztechz.probeez.model.profile.PersonalDetails
 import com.aztechz.probeez.model.profile.ProfessionalDetails
+import com.aztechz.probeez.model.profile.ProfileData
 import com.aztechz.probeez.model.profile.ProfileUpdateRequest
 import com.aztechz.probeez.util.DataProcessor
 import com.aztechz.probeez.util.SpinnerAdapters
@@ -33,6 +34,7 @@ import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_profile_professional.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -58,6 +60,8 @@ class ProfileProfessionalFragment : Fragment() {
     private var strSkills: String? = ""
     private var strCertificates: String? = ""
     private var strProfessionalIdentity: String? = ""
+    private var profileData: ProfileData? = null
+    private var strFilePath: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,27 +82,48 @@ class ProfileProfessionalFragment : Fragment() {
                     strSkills?.split(",")?.map { it.trim() } ?: ArrayList()
                 val dt = activity?.let { it1 -> DataProcessor(it1) }
 
-                val personalDetails = PersonalDetails(about, address, "", strCity, arralistInterest)
+                val personalDetails = PersonalDetails(
+                    about,
+                    address,
+                    "",
+                    strCity,
+                    arralistInterest,
+                    "",
+                    "",
+                    gender,
+                    strDob
+                )
                 val professionalDetails =
-                    ProfessionalDetails(arrListCertificates, arrListHobbies, arrListSkills)
+                    ProfessionalDetails(
+                        arrListCertificates,
+                        arrListHobbies,
+                        arrListSkills,
+                        ArrayList<String>(),
+                        strEducation,
+                        strCurrentWorking,
+                        strAchievements,
+                        strProfessionalIdentity,
+                        strYearExperiance
+                    )
                 val profileUpdateRequest = ProfileUpdateRequest(
                     dt?.getStr("email").toString(),
                     strFirstName + " " + strLastName,
                     personalDetails,
                     dt?.getStr("phone").toString(),
                     professionalDetails,
-                    dt?.getStr("user_id").toString()
+                    dt?.getStr("user_id").toString(),
+                    strFilePath.toString()
                 )
-                Log.i("ProfileProfessionalFragment","On click")
+                Log.i("ProfileProfessionalFragment", "On click")
                 profileViewModel.updateProfileDate(profileUpdateRequest)
-            /*    strCurrentWorking = workingInp.editText.toString()
-                strYearExperiance = yearsExpInp.editText.toString()
-                strAchievements = achievementsInp.editText.toString()
-                strSkills = skillsInp.editText.toString()
-                strCertificates = coursesInp.editText.toString()
-                strProfessionalIdentity = professionalInp.editText.toString()
-                ProfileProfessionalFragmentDirections.actionProfileProfessionalFragmentToProfileProfessionalCategoryFragment(gender.toString(),strFirstName.toString(),strLastName.toString(),strDob.toString(),strMaritalStatus.toString(),strCity.toString(),strHobbies.toString(),about.toString(),arralistInterest?.toTypedArray()!!,address.toString(),strEducation.toString(),strYearExperiance.toString(),strCurrentWorking.toString(),strAchievements.toString(),strSkills.toString(),strCertificates.toString(),strProfessionalIdentity.toString())
-                findNavController().navigate(R.id.action_profileProfessionalFragment_to_profileProfessionalCategoryFragment)*/
+                /*    strCurrentWorking = workingInp.editText.toString()
+                    strYearExperiance = yearsExpInp.editText.toString()
+                    strAchievements = achievementsInp.editText.toString()
+                    strSkills = skillsInp.editText.toString()
+                    strCertificates = coursesInp.editText.toString()
+                    strProfessionalIdentity = professionalInp.editText.toString()
+                    ProfileProfessionalFragmentDirections.actionProfileProfessionalFragmentToProfileProfessionalCategoryFragment(gender.toString(),strFirstName.toString(),strLastName.toString(),strDob.toString(),strMaritalStatus.toString(),strCity.toString(),strHobbies.toString(),about.toString(),arralistInterest?.toTypedArray()!!,address.toString(),strEducation.toString(),strYearExperiance.toString(),strCurrentWorking.toString(),strAchievements.toString(),strSkills.toString(),strCertificates.toString(),strProfessionalIdentity.toString())
+                    findNavController().navigate(R.id.action_profileProfessionalFragment_to_profileProfessionalCategoryFragment)*/
             }
 
             skip.setOnClickListener {
@@ -109,8 +134,8 @@ class ProfileProfessionalFragment : Fragment() {
             etAchievementValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     val txtVal = v.text
-                    if(!txtVal.isNullOrEmpty()) {
-                        addChipToGroup(txtVal.toString(),chipGroupAchievements)
+                    if (!txtVal.isNullOrEmpty()) {
+                        addChipToGroup(txtVal.toString(), chipGroupAchievements)
                         etAchievementValue.setText("")
                     }
                     return@OnEditorActionListener true
@@ -120,8 +145,8 @@ class ProfileProfessionalFragment : Fragment() {
             etSkillValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     val txtVal = v.text
-                    if(!txtVal.isNullOrEmpty()) {
-                        addChipToGroup(txtVal.toString(),chipGroupSkill)
+                    if (!txtVal.isNullOrEmpty()) {
+                        addChipToGroup(txtVal.toString(), chipGroupSkill)
                         etSkillValue.setText("")
                     }
                     return@OnEditorActionListener true
@@ -131,8 +156,8 @@ class ProfileProfessionalFragment : Fragment() {
             etcoursesValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     val txtVal = v.text
-                    if(!txtVal.isNullOrEmpty()) {
-                        addChipToGroup(txtVal.toString(),chipGroupCourses)
+                    if (!txtVal.isNullOrEmpty()) {
+                        addChipToGroup(txtVal.toString(), chipGroupCourses)
                         etcoursesValue.setText("")
                     }
                     return@OnEditorActionListener true
@@ -141,8 +166,13 @@ class ProfileProfessionalFragment : Fragment() {
             })
             educationSpinner.adapter = adapters.highestEducationAdapter
             educationSpinner.setSelection(0)
-            educationSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+            educationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    position: Int,
+                    p3: Long
+                ) {
                     strEducation = adapters.highestEducationAdapter.getItem(position)
                 }
 
@@ -183,8 +213,11 @@ class ProfileProfessionalFragment : Fragment() {
         about = profileProfessionalFragmentArgs.about
         arralistInterest = profileProfessionalFragmentArgs.interest.toList()
         address = profileProfessionalFragmentArgs.address
+        profileData = profileProfessionalFragmentArgs.profileData
+        strFilePath = profileProfessionalFragmentArgs.profileImage
+        setProfileData(profileData)
         profileViewModel.updateprofile.observe(viewLifecycleOwner, Observer {
-              Log.i("ProfileProfessional","Status Code: ")
+            Log.i("ProfileProfessional", "Status Code: ")
             when (it) {
                 is DataState.Loading -> {
                     CustomProgress.showProgress(activity as Context, false)
@@ -193,7 +226,7 @@ class ProfileProfessionalFragment : Fragment() {
 
                 is DataState.Success -> {
                     CustomProgress.hideProgress()
-                    Log.i("ProfileProfessional","Status Code: "+it.data.statusCode)
+                    Log.i("ProfileProfessional", "Status Code: " + it.data.statusCode)
 
                     if (it.data.statusCode == "001") {
                         val intent = Intent(activity, MainActivity::class.java)
@@ -214,7 +247,7 @@ class ProfileProfessionalFragment : Fragment() {
 
                 is DataState.Error -> {
                     CustomProgress.hideProgress()
-                    Log.i("ProfileProfessional","ERROR: "+ it.exception.printStackTrace())
+                    Log.i("ProfileProfessional", "ERROR: " + it.exception.printStackTrace())
                 }
             }
 
@@ -222,10 +255,92 @@ class ProfileProfessionalFragment : Fragment() {
 
     }
 
+    private fun setProfileData(profileData: ProfileData?) {
+        if (profileData != null) {
+            workingInp.editText?.setText("")
+            edtYearsExp.setText("")
+            et_achievement_value.setText("")
+            if (!profileData.professionalDetails?.skills.isNullOrEmpty()) {
+                etSkillValue.setText(profileData.professionalDetails?.skills?.joinToString(separator = ","))
+            }
+            if (!profileData.professionalDetails?.certificates.isNullOrEmpty()) {
+                etcoursesValue?.setText(
+                    profileData.professionalDetails?.certificates?.joinToString(
+                        separator = ","
+                    )
+                )
+            }
+
+            if (!profileData.professionalDetails?.qualification.isNullOrEmpty()) {
+                when (profileData.professionalDetails?.qualification) {
+                    "Qualification" -> {
+                        educationSpinner.setSelection(1)
+                    }
+                    "Uneducated" -> {
+                        educationSpinner.setSelection(2)
+
+                    }
+                    "Pre School / SSC" -> {
+                        educationSpinner.setSelection(3)
+
+                    }
+                    "Under Graduate" -> {
+                        educationSpinner.setSelection(4)
+
+                    }
+                    "Graduate" -> {
+                        educationSpinner.setSelection(5)
+
+                    }
+                    "Post Graduate" -> {
+                        educationSpinner.setSelection(6)
+
+                    }
+                    "Professional Graduate" -> {
+                        educationSpinner.setSelection(7)
+
+                    }
+                    "Medical Professional Graduate" -> {
+                        educationSpinner.setSelection(8)
+
+                    }
+
+
+                }
+            }
+            if (!profileData.professionalDetails?.current_work.isNullOrEmpty())
+            {
+                edtWorking.setText(profileData.professionalDetails?.current_work)
+            }
+            if (!profileData.professionalDetails?.experience.isNullOrEmpty())
+            {
+                edtYearsExp.setText(profileData.professionalDetails?.experience)
+            }
+            if (!profileData.professionalDetails?.achievements.isNullOrEmpty())
+            {
+                et_achievement_value.setText(profileData.professionalDetails?.achievements)
+            }
+            if (!profileData.professionalDetails?.identity.isNullOrEmpty())
+            {
+                edtProfessional.setText(profileData.professionalDetails?.identity)
+            }
+
+
+
+        }
+    }
+
     private fun addChipToGroup(chipText: String, chipGroup: ChipGroup) {
 
         val chip = Chip(requireContext())
-        chip.setChipDrawable(ChipDrawable.createFromAttributes(requireContext(),null,0, R.style.Widget_MaterialComponents_Chip_Entry))
+        chip.setChipDrawable(
+            ChipDrawable.createFromAttributes(
+                requireContext(),
+                null,
+                0,
+                R.style.Widget_MaterialComponents_Chip_Entry
+            )
+        )
         chip.text = chipText
         // chip.chipIcon = ContextCompat.getDrawable(requireContext(), baseline_person_black_18)
         chip.isCloseIconVisible = true
