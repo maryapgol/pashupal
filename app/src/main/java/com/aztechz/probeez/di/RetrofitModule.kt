@@ -44,7 +44,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun getGson(): Gson = GsonBuilder().create()
+    fun getGson(): Gson = GsonBuilder().setLenient().create()
 
     @Singleton
     @Provides

@@ -22,6 +22,7 @@ import com.aztechz.probeez.util.DataProcessor
 import com.aztechz.probeez.util.SpinnerAdapters
 import com.aztechz.probeez.utils.CustomProgress
 import com.aztechz.probeez.utils.DataState
+import com.aztechz.probeez.utils.Utility
 import com.aztechz.probeez.viewmodel.TaskViewModel
 import com.aztechz.probeez.viewmodel.VendorViewModel
 import com.google.android.material.button.MaterialButton
@@ -30,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -56,6 +58,7 @@ class TaskActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         setSupportActionBar(findViewById(R.id.toolbar_main))
+        setTypeface()
         taskViewModel.task.observe(this@TaskActivity, androidx.lifecycle.Observer {
 
             when (it) {
@@ -482,6 +485,11 @@ class TaskActivity : AppCompatActivity() {
 
 
         // DataProcessor(requireContext()).setObject("task", tasks)
+    }
+
+    private fun setTypeface()
+    {
+       app_name.typeface = Utility.fontBold
     }
 
     override fun onBackPressed() {

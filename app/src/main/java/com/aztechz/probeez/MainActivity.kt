@@ -18,6 +18,7 @@ package com.aztechz.probeez
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
@@ -26,10 +27,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.aztechz.probeez.databinding.ActivityMainBinding
+import com.aztechz.probeez.model.reports.GenerateReport
 import com.aztechz.probeez.ui.task.TaskActivity
+import com.aztechz.probeez.utils.Utility
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.greenrobot.eventbus.EventBus
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -47,9 +52,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-
         setSupportActionBar(findViewById(R.id.toolbar_main))
+        setTypeface()
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
 
@@ -72,9 +76,29 @@ class MainActivity : AppCompatActivity() {
             //navController.navigate(R.id.composeFragment)
         }
 
+        binding.generateReport.setOnClickListener {
+          EventBus.getDefault().post(GenerateReport(true))
+        }
+
     }
 
+    private fun setTypeface()
+    {
+        app_name.typeface = Utility.fontBold
+        generateReport.typeface = Utility.fontMedium
+    }
 
+    fun setReportVisibility(visibility: Boolean)
+    {
+        if(visibility)
+        {
+            generateReport.visibility = View.VISIBLE
+        }else{
+            generateReport.visibility = View.GONE
+
+        }
+
+    }
 
     /**
      * Set this Activity's night mode based on a user's in-app selection.

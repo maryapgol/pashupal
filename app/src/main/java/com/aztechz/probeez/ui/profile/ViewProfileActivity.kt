@@ -16,6 +16,7 @@ import com.aztechz.probeez.R
 import com.aztechz.probeez.ui.profile.adapter.ViewPagerAdapter
 import com.aztechz.probeez.utils.CustomProgress
 import com.aztechz.probeez.utils.DataState
+import com.aztechz.probeez.utils.Utility
 import com.aztechz.probeez.viewmodel.ProfileViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -37,7 +38,7 @@ class ViewProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_profile)
-
+        setTypeFace()
         conMain = findViewById(R.id.conMain)
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPager = findViewById<ViewPager>(R.id.viewPager)
@@ -52,15 +53,12 @@ class ViewProfileActivity : AppCompatActivity() {
 
     private fun setTypeFace()
     {
-
+        app_name.typeface = Utility.fontBold
     }
 
     private fun initializeData() {
 
-        Glide.
-        with(this@ViewProfileActivity).
-        load("https://images.hindustantimes.com/img/2021/09/13/550x309/ronaldo-united-getty-new_1631517666339_1631517671208.jpg").
-        into(imgUser)
+
 
 
         profileViewModel.profileData.observe(this, Observer {
@@ -86,6 +84,10 @@ class ViewProfileActivity : AppCompatActivity() {
                                 viewPagerAdapter?.getItem(1) as ProfessionalProfileFragment
                             personalProfileFragment.setData(personalDetails)
                             professionalProfileFragment.setData(professionalDetails)
+                            Glide.
+                            with(this@ViewProfileActivity).
+                            load(it.data.data[0]?.profilePic).
+                            into(imgUser)
                         }
 
                     } else {

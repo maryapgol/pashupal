@@ -24,6 +24,7 @@
         android:theme="@style/Theme.Probeez.DayNight"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
 
         <activity

@@ -15,5 +15,6 @@ data class TaskListResponseModel(
         val title: String? = null,
         val type: String? = null,
         val userId: String? = null,
-        val vendorId: String? = null
+        val vendorId: String? = null,
+        var isSelected: Boolean? = false
     )

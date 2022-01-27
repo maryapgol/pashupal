@@ -102,5 +102,6 @@
     <string name="image_picker">Image Picker</string>
     <string name="cancel">Cancel</string>
     <string name="image_picker_subtitle">Capture an image or Upload an existing photo</string>
+    <string name="report">Report</string>
 
 </resources>
