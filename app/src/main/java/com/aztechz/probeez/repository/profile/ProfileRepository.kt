@@ -56,9 +56,9 @@ class ProfileRepository(private val context: Context, private val retrofitClient
 //Create a file object using file path
                 val file = java.io.File(profileUpdateRequest.image)
                 // Parsing any Media type file
-                val requestBody: RequestBody = RequestBody.create(MediaType.parse("*/*"), file)
+                val requestBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
                  fileToUpload =
-                    MultipartBody.Part.createFormData("filename", file.getName(), requestBody)
+                    MultipartBody.Part.createFormData("file", file.getName(), requestBody)
             }
             val request = Gson().toJson(profileUpdateRequest)
 // Here the json data is add to a hash map with key data
@@ -116,7 +116,7 @@ class ProfileRepository(private val context: Context, private val retrofitClient
 
 
 
-            val profileDetails = retrofitClient.updateProfile(map)
+            val profileDetails = retrofitClient.updateProfile(fileToUpload as MultipartBody.Part,data)
             emit(DataState.Success(profileDetails))
 
         }catch (e: java.lang.Exception)
