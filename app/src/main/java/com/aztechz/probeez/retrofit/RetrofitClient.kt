@@ -53,4 +53,8 @@ interface RetrofitClient {
     @POST("user/update")
     suspend fun updateProfile(@Part image: MultipartBody.Part, @Part("data") data: RequestBody): UpdateProfileResponseModel
 
+    @Multipart
+    @POST("user/update")
+    suspend fun updateProfile(@Part("data") data: RequestBody): UpdateProfileResponseModel
+
 }

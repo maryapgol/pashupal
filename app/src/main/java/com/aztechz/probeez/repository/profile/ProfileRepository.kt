@@ -115,9 +115,15 @@ class ProfileRepository(private val context: Context, private val retrofitClient
              map.put("professionalDetails", professionalDetails)*/
 
 
+             if(fileToUpload!=null)
+             {
+                 val profileDetails = retrofitClient.updateProfile(fileToUpload as MultipartBody.Part,data)
+                 emit(DataState.Success(profileDetails))
+             }else{
+                 val profileDetails = retrofitClient.updateProfile(data)
+                 emit(DataState.Success(profileDetails))
+             }
 
-            val profileDetails = retrofitClient.updateProfile(fileToUpload as MultipartBody.Part,data)
-            emit(DataState.Success(profileDetails))
 
         }catch (e: java.lang.Exception)
         {
