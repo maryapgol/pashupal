@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.viewbinding.BuildConfig
 import com.aztechz.probeez.util.ReleaseTree
 import com.aztechz.probeez.utils.Utility
+import com.instabug.library.Instabug
+import com.instabug.library.invocation.InstabugInvocationEvent
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -30,6 +32,14 @@ class MyApplication : Application() {
         } else {
             Timber.plant(ReleaseTree())
         }
+        setInstabugCredentials()
+    }
+
+    private fun setInstabugCredentials()
+    {
+        Instabug.Builder(this, "a42f5116ce0d3de36e799e5a93d99255")
+            .setInvocationEvents(InstabugInvocationEvent.SHAKE,InstabugInvocationEvent.FLOATING_BUTTON)
+            .build()
     }
 /*
 
